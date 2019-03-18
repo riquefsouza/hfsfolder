@@ -14,7 +14,7 @@ public class FolderOrder {
 	private int codFolder;
 	
 	/** The ordem. */
-	private int ordem;
+	private int order;
 	
 	/**
 	 * Instantiates a new folder order.
@@ -22,10 +22,10 @@ public class FolderOrder {
 	 * @param codFolder the cod folder
 	 * @param ordem the ordem
 	 */
-	public FolderOrder(int codFolder, int ordem) {
+	public FolderOrder(int codFolder, int order) {
 		super();
 		this.codFolder = codFolder;
-		this.ordem = ordem;
+		this.order = order;
 	}
 	
 	/**
@@ -36,7 +36,7 @@ public class FolderOrder {
 	public FolderOrder(FolderOrder folderOrder) {
 		super();
 		this.codFolder = folderOrder.getCodFolder();
-		this.ordem = folderOrder.getOrdem();
+		this.order = folderOrder.getOrder();
 	}
 	
 	/**
@@ -57,22 +57,12 @@ public class FolderOrder {
 		this.codFolder = codFolder;
 	}
 
-	/**
-	 * Gets the ordem.
-	 *
-	 * @return the ordem
-	 */
-	public int getOrdem() {
-		return ordem;
+	public int getOrder() {
+		return order;
 	}
 
-	/**
-	 * Sets the ordem.
-	 *
-	 * @param ordem the new ordem
-	 */
-	public void setOrdem(int ordem) {
-		this.ordem = ordem;
+	public void setOrder(int order) {
+		this.order = order;
 	}
 
 }

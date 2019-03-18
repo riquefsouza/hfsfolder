@@ -11,27 +11,27 @@ package br.com.hfsfolder.model;
 public class Folder extends PreFile {
 
 	/** The codigo. */
-	private int codigo;
-	
+	private int code;
+
 	/** The ordem. */
-	private int ordem;
-	
+	private int order;
+
 	/** The cod dir pai. */
-	private int codDirPai;
-	
+	private int parentCodFolder;
+
 	/** The tipo. */
-	private char tipo;
-	
+	private char folderType;
+
 	/** The caminho. */
-	private String caminho;
-	
+	private String path;
+
 	/** The nome pai. */
-	private String nomePai;
-	
+	private String parentName;
+
 	/** The caminho pai. */
-	private String caminhoPai;
-	
-	private String caminhoOriginal;
+	private String parentPath;
+
+	private String originalPath;
 
 	/**
 	 * Instantiates a new folder.
@@ -39,173 +39,107 @@ public class Folder extends PreFile {
 	 * @param preFile the pre file
 	 */
 	public Folder(PreFile preFile) {
-		super(preFile.getNome(), preFile.getTamanho(), preFile.getModificado(), preFile.getAtributos(),
-				preFile.getTamanhoFormatado(), preFile.getModificadoFormatado());
+		super(preFile.getName(), preFile.getSize(), preFile.getModified(), preFile.getAttributes(),
+				preFile.getFormatedSize(), preFile.getFormatedModified());
 	}
 
-	/**
-	 * Gets the codigo.
-	 *
-	 * @return the codigo
-	 */
-	public int getCodigo() {
-		return codigo;
+	public int getCode() {
+		return code;
 	}
 
-	/**
-	 * Sets the codigo.
-	 *
-	 * @param codigo the codigo to set
-	 */
-	public void setCodigo(int codigo) {
-		this.codigo = codigo;
+	public void setCode(int code) {
+		this.code = code;
 	}
 
-	/**
-	 * Gets the ordem.
-	 *
-	 * @return the ordem
-	 */
-	public int getOrdem() {
-		return ordem;
+	public int getOrder() {
+		return order;
 	}
 
-	/**
-	 * Sets the ordem.
-	 *
-	 * @param ordem the ordem to set
-	 */
-	public void setOrdem(int ordem) {
-		this.ordem = ordem;
+	public void setOrder(int order) {
+		this.order = order;
 	}
 
-	/**
-	 * Gets the cod dir pai.
-	 *
-	 * @return the codDirPai
-	 */
-	public int getCodDirPai() {
-		return codDirPai;
+	public int getParentCodFolder() {
+		return parentCodFolder;
 	}
 
-	/**
-	 * Sets the cod dir pai.
-	 *
-	 * @param codDirPai the codDirPai to set
-	 */
-	public void setCodDirPai(int codDirPai) {
-		this.codDirPai = codDirPai;
+	public void setParentCodFolder(int parentCodFolder) {
+		this.parentCodFolder = parentCodFolder;
 	}
 
-	/**
-	 * Gets the tipo.
-	 *
-	 * @return the tipo
-	 */
-	public char getTipo() {
-		return tipo;
+	public char getFolderType() {
+		return folderType;
 	}
 
-	/**
-	 * Sets the tipo.
-	 *
-	 * @param tipo the tipo to set
-	 */
-	public void setTipo(char tipo) {
-		this.tipo = tipo;
+	public void setFolderType(char folderType) {
+		this.folderType = folderType;
 	}
 
-	/**
-	 * Gets the caminho.
-	 *
-	 * @return the caminho
-	 */
-	public String getCaminho() {
-		return caminho;
+	public String getPath() {
+		return path;
 	}
 
-	/**
-	 * Sets the caminho.
-	 *
-	 * @param caminho the caminho to set
-	 */
-	public void setCaminho(String caminho) {
-		this.caminho = caminho;
+	public void setPath(String path) {
+		this.path = path;
 	}
 
-	/**
-	 * Gets the nome pai.
-	 *
-	 * @return the nomePai
-	 */
-	public String getNomePai() {
-		return nomePai;
+	public String getParentName() {
+		return parentName;
 	}
 
-	/**
-	 * Sets the nome pai.
-	 *
-	 * @param nomePai the nomePai to set
-	 */
-	public void setNomePai(String nomePai) {
-		this.nomePai = nomePai;
+	public void setParentName(String parentName) {
+		this.parentName = parentName;
 	}
 
-	/**
-	 * Gets the caminho pai.
-	 *
-	 * @return the caminhoPai
-	 */
-	public String getCaminhoPai() {
-		return caminhoPai;
+	public String getParentPath() {
+		return parentPath;
 	}
 
-	/**
-	 * Sets the caminho pai.
-	 *
-	 * @param caminhoPai the caminhoPai to set
-	 */
-	public void setCaminhoPai(String caminhoPai) {
-		this.caminhoPai = caminhoPai;
+	public void setParentPath(String parentPath) {
+		this.parentPath = parentPath;
 	}
 
-	public String getCaminhoOriginal() {
-		return caminhoOriginal;
+	public String getOriginalPath() {
+		return originalPath;
 	}
 
-	public void setCaminhoOriginal(String caminhoOriginal) {
-		this.caminhoOriginal = caminhoOriginal;
+	public void setOriginalPath(String originalPath) {
+		this.originalPath = originalPath;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see br.com.hfsfolder.model.PreFile#limparDados()
 	 */
 	@Override
 	public void limparDados() {
 		super.limparDados();
-		this.codigo = 0;
-		this.ordem = 0;
-		this.codDirPai = 0;
-		this.tipo = 'A';
-		this.caminho = "";
-		this.nomePai = "";
-		this.caminhoPai = "";
-		this.caminhoOriginal = "";
+		this.code = 0;
+		this.order = 0;
+		this.parentCodFolder = 0;
+		this.folderType = 'A';
+		this.path = "";
+		this.parentName = "";
+		this.parentPath = "";
+		this.originalPath = "";
 	}
 
 	@Override
 	public String toString() {
-		return "Folder [codigo=" + codigo + ", ordem=" + ordem + ", codDirPai=" + codDirPai + ", tipo=" + tipo
-				+ ", caminho=" + caminho + ", nomePai=" + nomePai + ", caminhoPai=" + caminhoPai + "]";
+		return "Folder [codigo=" + code + ", ordem=" + order + ", codDirPai=" + parentCodFolder + ", tipo=" + folderType
+				+ ", caminho=" + path + ", nomePai=" + parentName + ", caminhoPai=" + parentPath + "]";
 	}
 
-	public String toInsert(int naba) {		
-		return "INSERT INTO Diretorios(aba, cod, ordem, nome, tam, tipo, modificado, atributos, coddirpai, caminho) VALUES("+naba+","+
-		codigo + "," + ordem + ",'" + getNome() + "'," + getTamanho() + ",'" + tipo + "','" + getModificadoFormatado()  + "','" 
-				+ getAtributos()  + "'," + codDirPai + ",'"   + getCaminho() + "');"; //,'" + nomePai + "','" + caminhoPai;
+	public String toInsert(int naba) {
+		return "INSERT INTO Diretorios(aba, cod, ordem, nome, tam, tipo, modificado, atributos, coddirpai, caminho) VALUES("
+				+ naba + "," + code + "," + order + ",'" + getName() + "'," + getSize() + ",'" + folderType + "','"
+				+ getFormatedModified() + "','" + getAttributes() + "'," + parentCodFolder + ",'" + getPath()
+				+ "');";
 	}
-	
+
 	public String toCVS() {
-		return super.toCVS() + ";" + codigo + ";" + ordem + ";" + codDirPai + ";" + tipo + ";" + getCaminho(); // + ";" + nomePai + ";" + caminhoPai;
-	}	
+		return code + ";" + order + ";" + getName() + ";" + getSize() + ";" + folderType + ";" 
+				+ getFormatedModified() + ";" + getAttributes() + ";" + parentCodFolder + ";" + getPath(); 
+	}
 }

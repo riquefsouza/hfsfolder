@@ -21,7 +21,7 @@ public class AplicationTest {
 	 */
 	@Test
 	public void existResult() {
-		String json = ProcessFolders.processFoldersToJson("C:\\TutorialsPoint");
+		String json = ProcessFolders.processFoldersToJson("C:/RetroArch");
 		assertTrue(json.length() > 0);
 	}
 }

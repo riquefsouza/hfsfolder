@@ -51,3 +51,56 @@
 2019-03-12 06:51:59 [main] INFO  Aplicacao:55 - Processing folders!
 2019-03-12 06:53:06 [main] INFO  Aplicacao:55 - Processing folders!
 2019-03-12 06:55:44 [main] INFO  Aplicacao:55 - Processing folders!
+2019-03-12 08:14:00 [main] INFO  Aplicacao:57 - Processing folders!
+2019-03-12 08:14:37 [main] INFO  Aplicacao:57 - Processing folders!
+2019-03-12 08:15:31 [main] INFO  Aplicacao:57 - Processing folders!
+2019-03-12 08:16:34 [main] INFO  Aplicacao:57 - Processing folders!
+2019-03-12 08:21:39 [main] INFO  Aplicacao:57 - Processing folders!
+2019-03-12 08:22:03 [main] INFO  Aplicacao:57 - Processing folders!
+2019-03-12 08:22:17 [main] INFO  Aplicacao:57 - Processing folders!
+2019-03-12 08:26:57 [main] INFO  Aplicacao:57 - Processing folders!
+2019-03-12 08:28:44 [main] INFO  Aplicacao:57 - Processing folders!
+2019-03-12 08:29:02 [main] INFO  Aplicacao:57 - Processing folders!
+2019-03-12 08:30:15 [main] INFO  Aplicacao:57 - Processing folders!
+2019-03-12 08:31:19 [main] INFO  Aplicacao:57 - Processing folders!
+2019-03-12 08:31:29 [main] INFO  Aplicacao:57 - Processing folders!
+2019-03-12 08:32:21 [main] INFO  Aplicacao:57 - Processing folders!
+2019-03-12 08:35:56 [main] INFO  Aplicacao:57 - Processing folders!
+2019-03-12 08:36:58 [main] INFO  Aplicacao:57 - Processing folders!
+2019-03-12 08:37:43 [main] INFO  Aplicacao:57 - Processing folders!
+2019-03-12 08:38:29 [main] INFO  Aplicacao:57 - Processing folders!
+2019-03-12 08:41:51 [main] INFO  Aplicacao:57 - Processing folders!
+2019-03-12 08:42:27 [main] INFO  Aplicacao:57 - Processing folders!
+2019-03-12 08:42:58 [main] INFO  Aplicacao:57 - Processing folders!
+2019-03-16 09:36:16 [main] INFO  Application:57 - Processing folders!
+2019-03-16 09:42:49 [main] INFO  Application:78 - Inform folder!
+2019-03-16 09:43:49 [main] INFO  Application:78 - Inform folder!
+2019-03-16 09:44:57 [main] INFO  Application:79 - Inform folder!
+2019-03-16 09:48:19 [main] INFO  Application:79 - Inform option!
+2019-03-16 09:49:02 [main] INFO  ProcessFolders:194 - Processing folders!
+2019-03-16 09:50:47 [main] INFO  ProcessFolders:194 - Processing folders!
+2019-03-16 09:50:59 [main] INFO  Application:74 - Finish process folders!
+2019-03-16 09:51:26 [main] INFO  ProcessFolders:194 - Processing folders!
+2019-03-16 09:51:33 [main] INFO  Application:74 - Finish process folders!
+2019-03-16 09:59:34 [main] INFO  ProcessFolders:194 - Processing folders!
+2019-03-16 09:59:41 [main] INFO  Application:74 - Finish process folders!
+2019-03-16 10:00:32 [main] INFO  ProcessFolders:194 - Processing folders!
+2019-03-16 10:00:39 [main] INFO  Application:74 - Finish process folders!
+2019-03-16 10:02:12 [main] INFO  ProcessFolders:195 - Processing folders!
+2019-03-16 10:02:19 [main] INFO  Application:74 - Finish process folders!
+2019-03-16 10:02:55 [main] INFO  ProcessFolders:194 - Processing folders!
+2019-03-16 10:03:02 [main] ERROR ProcessFolders:246 - java.nio.file.FileSystemException: hfsfolder.csv: O arquivo já está sendo usado por outro processo.
+
+2019-03-16 10:03:02 [main] INFO  Application:74 - Finish process folders!
+2019-03-16 10:03:17 [main] INFO  ProcessFolders:194 - Processing folders!
+2019-03-16 10:03:24 [main] INFO  Application:74 - Finish process folders!
+2019-03-16 10:05:26 [main] INFO  ProcessFolders:194 - Processing folders!
+2019-03-16 10:08:36 [main] INFO  ProcessFolders:195 - Processing folders!
+2019-03-16 10:08:43 [main] INFO  Application:74 - Finish process folders!
+2019-03-16 10:09:58 [main] INFO  ProcessFolders:195 - Processing folders!
+2019-03-16 10:10:10 [main] INFO  Application:74 - Finish process folders!
+2019-03-16 10:21:00 [main] INFO  ProcessFolders:194 - Processing folders!
+2019-03-16 10:21:29 [main] INFO  ProcessFolders:194 - Processing folders!
+2019-03-16 10:21:41 [main] INFO  Application:74 - Finish process folders!
+2019-03-16 10:44:25 [main] INFO  ProcessFolders:194 - Processing folders!
+2019-03-16 10:44:28 [main] INFO  Application:74 - Finish process folders!

@@ -13,22 +13,22 @@ import java.util.Calendar;
 public class PreFile {
 
 	/** The nome. */
-	private String nome;
-	
+	private String name;
+
 	/** The tamanho. */
-	private long tamanho;
-	
+	private long size;
+
 	/** The modificado. */
-	private Calendar modificado;
-	
+	private Calendar modified;
+
 	/** The atributos. */
-	private String atributos;
-	
+	private String attributes;
+
 	/** The tamanho formatado. */
-	private String tamanhoFormatado;
-	
+	private String formatedSize;
+
 	/** The modificado formatado. */
-	private String modificadoFormatado;
+	private String formatedModified;
 
 	/**
 	 * Instantiates a new pre file.
@@ -40,156 +40,165 @@ public class PreFile {
 	/**
 	 * Instantiates a new pre file.
 	 *
-	 * @param nome the nome
-	 * @param tamanho the tamanho
-	 * @param modificado the modificado
-	 * @param atributos the atributos
-	 * @param tamanhoFormatado the tamanho formatado
-	 * @param modificadoFormatado the modificado formatado
+	 * @param name the name
+	 * @param size the size
+	 * @param modified the modified
+	 * @param attributes the attributes
+	 * @param formatSize the format size
+	 * @param formatModified the format modified
 	 */
-	public PreFile(String nome, long tamanho, Calendar modificado, String atributos, String tamanhoFormatado,
-			String modificadoFormatado) {
+	public PreFile(String name, long size, Calendar modified, String attributes, String formatSize,
+			String formatModified) {
 		super();
-		this.nome = nome;
-		this.tamanho = tamanho;
-		this.modificado = modificado;
-		this.atributos = atributos;
-		this.tamanhoFormatado = tamanhoFormatado;
-		this.modificadoFormatado = modificadoFormatado;
+		this.name = name;
+		this.size = size;
+		this.modified = modified;
+		this.attributes = attributes;
+		this.formatedSize = formatSize;
+		this.formatedModified = formatModified;
 	}
 
 	/**
-	 * Gets the nome.
+	 * Gets the name.
 	 *
-	 * @return the nome
+	 * @return the name
 	 */
-	public String getNome() {
-		return nome;
+	public String getName() {
+		return name;
 	}
 
 	/**
-	 * Sets the nome.
+	 * Sets the name.
 	 *
-	 * @param nome the new nome
+	 * @param name the new name
 	 */
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	/**
-	 * Gets the tamanho.
+	 * Gets the size.
 	 *
-	 * @return the tamanho
+	 * @return the size
 	 */
-	public long getTamanho() {
-		return tamanho;
+	public long getSize() {
+		return size;
 	}
 
 	/**
-	 * Sets the tamanho.
+	 * Sets the size.
 	 *
-	 * @param tamanho the new tamanho
+	 * @param size the new size
 	 */
-	public void setTamanho(long tamanho) {
-		this.tamanho = tamanho;
+	public void setSize(long size) {
+		this.size = size;
 	}
 
 	/**
-	 * Gets the modificado.
+	 * Gets the modified.
 	 *
-	 * @return the modificado
+	 * @return the modified
 	 */
-	public Calendar getModificado() {
-		return modificado;
+	public Calendar getModified() {
+		return modified;
 	}
 
 	/**
-	 * Sets the modificado.
+	 * Sets the modified.
 	 *
-	 * @param modificado the new modificado
+	 * @param modified the new modified
 	 */
-	public void setModificado(Calendar modificado) {
-		this.modificado = modificado;
+	public void setModified(Calendar modified) {
+		this.modified = modified;
 	}
 
 	/**
-	 * Gets the atributos.
+	 * Gets the attributes.
 	 *
-	 * @return the atributos
+	 * @return the attributes
 	 */
-	public String getAtributos() {
-		return atributos;
+	public String getAttributes() {
+		return attributes;
 	}
 
 	/**
-	 * Sets the atributos.
+	 * Sets the attributes.
 	 *
-	 * @param atributos the new atributos
+	 * @param attributes the new attributes
 	 */
-	public void setAtributos(String atributos) {
-		this.atributos = atributos;
+	public void setAttributes(String attributes) {
+		this.attributes = attributes;
 	}
 
 	/**
-	 * Gets the tamanho formatado.
+	 * Gets the format size.
 	 *
-	 * @return the tamanho formatado
+	 * @return the format size
 	 */
-	public String getTamanhoFormatado() {
-		return tamanhoFormatado;
+	public String getFormatedSize() {
+		return formatedSize;
 	}
 
 	/**
-	 * Sets the tamanho formatado.
+	 * Sets the format size.
 	 *
-	 * @param tamanhoFormatado the new tamanho formatado
+	 * @param formatSize the new format size
 	 */
-	public void setTamanhoFormatado(String tamanhoFormatado) {
-		this.tamanhoFormatado = tamanhoFormatado;
+	public void setFormatedSize(String formatedSize) {
+		this.formatedSize = formatedSize;
 	}
 
 	/**
-	 * Gets the modificado formatado.
+	 * Gets the format modified.
 	 *
-	 * @return the modificado formatado
+	 * @return the format modified
 	 */
-	public String getModificadoFormatado() {
-		return modificadoFormatado;
+	public String getFormatedModified() {
+		return formatedModified;
 	}
 
 	/**
-	 * Sets the modificado formatado.
+	 * Sets the format modified.
 	 *
-	 * @param modificadoFormatado the new modificado formatado
+	 * @param formatModified the new format modified
 	 */
-	public void setModificadoFormatado(String modificadoFormatado) {
-		this.modificadoFormatado = modificadoFormatado;
+	public void setFormatedModified(String formatedModified) {
+		this.formatedModified = formatedModified;
 	}
 
 	/**
 	 * Limpar dados.
 	 */
 	public void limparDados() {
-		this.nome = "";
-		this.tamanho = 0;
-		this.modificado = Calendar.getInstance();
-		this.atributos = "";
-		this.tamanhoFormatado = "";
-		this.modificadoFormatado = "";
+		this.name = "";
+		this.size = 0;
+		this.modified = Calendar.getInstance();
+		this.attributes = "";
+		this.formatedSize = "";
+		this.formatedModified = "";
 	}
 
 	@Override
 	public String toString() {
-		return "PreFile [nome=" + nome + ", tamanho=" + tamanho + ", modificado=" + modificado + ", atributos="
-				+ atributos + ", tamanhoFormatado=" + tamanhoFormatado + ", modificadoFormatado=" + modificadoFormatado
-				+ "]";
+		return "PreFile [name=" + name + ", size=" + size + ", modified=" + modified + ", attributes=" + attributes
+				+ ", formatSize=" + formatedSize + ", formatModified=" + formatedModified + "]";
 	}
 
+	/**
+	 * To insert.
+	 *
+	 * @return the string
+	 */
 	public String toInsert() {
-		return "'" + getNome() + "'," + tamanho + ",'" + modificadoFormatado  + "','" + atributos  + "'";		
+		return "'" + getName() + "'," + size + ",'" + formatedModified + "','" + attributes + "'";
 	}
-	
+
+	/**
+	 * To CVS.
+	 *
+	 * @return the string
+	 */
 	public String toCVS() {
-		return getNome() + ";" + tamanho + ";" + modificadoFormatado  + ";" + atributos;		
-	}	
+		return getName() + ";" + size + ";" + formatedModified + ";" + attributes;
+	}
 }

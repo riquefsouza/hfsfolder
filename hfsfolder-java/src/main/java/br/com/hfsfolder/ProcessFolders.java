@@ -56,7 +56,7 @@ public class ProcessFolders {
 	 * @param nTam the n tam
 	 * @return the string
 	 */
-	private static String MontaTamanhoBig(BigDecimal nTam) {
+	private static String MountBigSize(BigDecimal nTam) {
 		BigDecimal nUmKilo, nUmMega, nUmGiga, nUmTera, nUmPeta;
 
 		nUmKilo = new BigDecimal(1024);
@@ -91,7 +91,7 @@ public class ProcessFolders {
 	 * @param arquivo the arquivo
 	 * @return the string
 	 */
-	private static String arquivoAtributos(File arquivo) {
+	private static String prefileAttributos(File arquivo) {
 		String sAtributos = "";
 
 		if (arquivo != null) {
@@ -117,19 +117,19 @@ public class ProcessFolders {
 	 * @param file the file
 	 * @return the pre file
 	 */
-	private static PreFile atributesToArquivo(File file) {
+	private static PreFile attributesToPreFile(File file) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTimeInMillis(file.lastModified());
 
 		PreFile arquivo = new PreFile();
-		arquivo.setNome(file.getName().replaceAll("'", "''"));
-		arquivo.setTamanho(file.length());
-		arquivo.setModificado(cal);
-		arquivo.setAtributos(arquivoAtributos(file));
-		arquivo.setTamanhoFormatado(MontaTamanhoBig(new BigDecimal(arquivo.getTamanho())));
+		arquivo.setName(file.getName().replaceAll("'", "''"));
+		arquivo.setSize(file.length());
+		arquivo.setModified(cal);
+		arquivo.setAttributes(prefileAttributos(file));
+		arquivo.setFormatedSize(MountBigSize(new BigDecimal(arquivo.getSize())));
 		
 		SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
-		arquivo.setModificadoFormatado(fmt.format(arquivo.getModificado().getTime()));
+		arquivo.setFormatedModified(fmt.format(arquivo.getModified().getTime()));
 		return arquivo;
 	}
 
@@ -142,18 +142,18 @@ public class ProcessFolders {
 	 * @return the optional
 	 */
 	private static Optional<Folder> createFolder(File file, FolderOrder folderOrder) {
-		PreFile arquivo = atributesToArquivo(file);
+		PreFile arquivo = attributesToPreFile(file);
 		Folder dir = new Folder(arquivo);
 
 		if (file.isDirectory()) {
-			dir.setTipo('D');
+			dir.setFolderType('D');
 		} else {						
-			dir.setTipo('A');			
+			dir.setFolderType('A');			
 		}
 		
 		String sPath = file.getAbsolutePath();
 		
-		Pattern pattern = Pattern.compile("[a-z]:\\\\");
+		Pattern pattern = Pattern.compile("[a-zA-Z]:\\\\");
 		Matcher matcher = pattern.matcher(sPath);
 		if (matcher.find()) {
 			sPath = sPath.substring(3);	
@@ -163,18 +163,18 @@ public class ProcessFolders {
 			sPath = sPath.substring(1);
 		}
 		
-		dir.setCaminho(sPath.replaceAll("'", "''").replaceAll("\\\\", "/"));
-		dir.setCaminhoOriginal(file.getAbsolutePath());
+		dir.setPath(sPath.replaceAll("'", "''").replaceAll("\\\\", "/"));
+		dir.setOriginalPath(file.getAbsolutePath());
 
-		if (!dir.getCaminho().contains("/")) {
+		if (!dir.getPath().contains("/")) {
 			folderOrder.setCodFolder(folderOrder.getCodFolder()+1);
-			folderOrder.setOrdem(1);
+			folderOrder.setOrder(1);
 		} else {
-			folderOrder.setOrdem(folderOrder.getOrdem()+1);	
+			folderOrder.setOrder(folderOrder.getOrder()+1);	
 		}
 
-		dir.setCodigo(folderOrder.getCodFolder());
-		dir.setOrdem(folderOrder.getOrdem());
+		dir.setCode(folderOrder.getCodFolder());
+		dir.setOrder(folderOrder.getOrder());
 
 		
 		return Optional.of(dir);
@@ -191,6 +191,8 @@ public class ProcessFolders {
 		Optional<Folder> dir = Optional.empty();
 		FolderOrder folderOrder = new FolderOrder(-1, 0);
 
+		log.info("Processing folders!");
+		
 		List<Path> listaPaths = VisitFoldersUtil.getPathsFromFiles(folder)
 				.collect(Collectors.toList());
 		
@@ -203,22 +205,22 @@ public class ProcessFolders {
 		
 		for (Folder item : listaFolders) {
 			
-			String pathChild = item.getCaminhoOriginal().substring(0, 
-					item.getCaminhoOriginal().lastIndexOf(File.separatorChar));
+			String pathChild = item.getOriginalPath().substring(0, 
+					item.getOriginalPath().lastIndexOf(File.separatorChar));
 			
 			Optional<Folder> pathFather = listaFolders.stream()
-				.filter(f -> f.getCaminhoOriginal().equals(pathChild))
+				.filter(f -> f.getOriginalPath().equals(pathChild))
 				.findFirst();
 			
 			if (pathFather.isPresent()) {
-				item.setCodDirPai(pathFather.get().getOrdem());
-				item.setNomePai(pathFather.get().getNome());
-				item.setCaminhoPai(pathFather.get().getCaminho());
+				item.setParentCodFolder(pathFather.get().getOrder());
+				item.setParentName(pathFather.get().getName());
+				item.setParentPath(pathFather.get().getPath());
 			}
 		}
 		
 		listaFolders = listaFolders.stream()
-				.sorted((s1, s2) -> s1.getCaminho().compareTo(s2.getCaminho()))
+				.sorted((s1, s2) -> s1.getPath().compareTo(s2.getPath()))
 				.collect(Collectors.toList());
 		
 		return listaFolders;
@@ -256,9 +258,9 @@ public class ProcessFolders {
 		return result;
 	}
 	
-	public static String processFoldersToCVS(String folder) {
+	public static String processFoldersToCSV(String folder) {
 		List<Folder> lista = process(folder);
-		String result = "";
+		String result = "Code;Order;Name;Size;\"Folder Type\";\"Formated Modified\";Attributes;\"Parent Code Folder\";Path\n";
 		
 		for (Folder item : lista) {
 			result += item.toCVS()+"\n";

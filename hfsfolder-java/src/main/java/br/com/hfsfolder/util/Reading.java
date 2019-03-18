@@ -12,14 +12,19 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * The Class Leitura.
+ * The Class Reading.
  */
-public final class Leitura {
+public final class Reading {
 
 	/** The log. */
-	private static Logger log = LogManager.getLogger(Leitura.class);
+	private static Logger log = LogManager.getLogger(Reading.class);
 
-	public static int LerInt() {
+	/**
+	 * Read int.
+	 *
+	 * @return the int
+	 */
+	public static int readInt() {
 		BufferedReader brentrada = new BufferedReader(new InputStreamReader(System.in));
 		String sret = new String();
 		int nret = 0;
