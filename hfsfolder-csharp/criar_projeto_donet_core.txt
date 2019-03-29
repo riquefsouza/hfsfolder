@@ -1,0 +1,3 @@
+mkdir hfsfolder-csharp
+dotnet new console
+dotnet run

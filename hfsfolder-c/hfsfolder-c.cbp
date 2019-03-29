@@ -31,11 +31,39 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option="-std=c99" />
+			<Add option="-DWIN32" />
+			<Add directory="C:/ambiente/hfsfolder/hfsfolder-c/" />
 		</Compiler>
+		<Linker>
+			<Add library="gnurx" />
+			<Add library="regex" />
+		</Linker>
+		<Unit filename="Folder.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Folder.h" />
+		<Unit filename="FolderList.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="FolderList.h" />
+		<Unit filename="FolderOrder.h" />
+		<Unit filename="PreFile.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="PreFile.h" />
+		<Unit filename="ProcessFolders.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ProcessFolders.h" />
+		<Unit filename="Rotinas.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Rotinas.h" />
 		<Unit filename="dirent.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="resource.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
