@@ -5,6 +5,7 @@ namespace hfsfolder_model
 
 PreFile::PreFile()
 {
+	this->limparDados();
 }
 
 PreFile::PreFile(std::string name, unsigned long long size, ptime modified, 
@@ -105,6 +106,7 @@ void PreFile::limparDados() {
 	this->formatedSize = "";
 	this->formatedModified = "";	
 	this->originalPath = "";
+	this->directory = false;
 }
 
 std::string PreFile::toString() {

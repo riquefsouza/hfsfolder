@@ -12,14 +12,14 @@ using namespace std;
 namespace hfsfolder_util
 {
 
-class VisitFoldersUtil
-{
-public:
-	VisitFoldersUtil();
-	virtual ~VisitFoldersUtil();
-	static std::vector<path> getPathsFromFiles(std::string folder);
-	static std::vector<path> getPathsFromFiles(std::string folder, std::string spattern);
-};
+	class VisitFoldersUtil
+	{
+	public:
+		VisitFoldersUtil();
+		virtual ~VisitFoldersUtil();
+		static std::vector<path> getPathsFromFiles(std::string folder);
+		static std::vector<path> getPathsFromFiles(std::string folder, std::string spattern);
+	};
 
 }
 

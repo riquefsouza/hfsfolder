@@ -1,19 +1,17 @@
-#include <ProcessFolders.h>
+#include "stdafx.h"
 
-/*
- * @author Henrique Figueiredo de Souza
- * @version 1.0
- * @since 2019
- */
+#include "FolderList.h"
 
 int main()
 {
-    ListPrefile lpreFile;
-    ProcessFolders_process("C:/ROMS-EMULS", &lpreFile);
+	/*
+	FolderList folderList;
+
+    ProcessFolders_process("C:\\temp", &folderList);
 
     for(int i = 0; i < 10; i++){
-        puts(lpreFile[i].name);
+        puts(folderList[i].name);
     }
-
+*/
     return 0;
 }

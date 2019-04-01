@@ -1,19 +1,49 @@
 #include "Folder.h"
+#include <iostream>
+
+using namespace std;
 
 namespace hfsfolder_model
 {
 	
 Folder::Folder()
 {
+	this->limparDados();
 }
 
 Folder::~Folder()
 {
 }
 
-Folder::Folder(PreFile *preFile) {
-	PreFile(preFile->getName(), preFile->getSize(), preFile->getModified(), preFile->getAttributes(),
-			preFile->getFormatedSize(), preFile->getFormatedModified());
+Folder::Folder(PreFile preFile) {
+	this->limparDados();
+
+	this->setName(preFile.getName());
+	this->setSize(preFile.getSize());
+	this->setModified(preFile.getModified());
+	this->setAttributes(preFile.getAttributes());
+	this->setFormatedSize(preFile.getFormatedSize());
+	this->setFormatedModified(preFile.getFormatedModified());
+	this->setOriginalPath(preFile.getOriginalPath());
+	this->setDirectory(preFile.isDirectory());
+}
+
+void Folder::clone(Folder folder) {
+	this->setName(folder.getName());
+	this->setSize(folder.getSize());
+	this->setModified(folder.getModified());
+	this->setAttributes(folder.getAttributes());
+	this->setFormatedSize(folder.getFormatedSize());
+	this->setFormatedModified(folder.getFormatedModified());
+	this->setOriginalPath(folder.getOriginalPath());
+	this->setDirectory(folder.isDirectory());
+	this->code = folder.getCode();
+	this->order = folder.getOrder();
+	this->parentCodFolder = folder.getParentCodFolder();
+	this->folderType = folder.getFolderType();
+	this->path = folder.getPath();
+	this->parentName = folder.getParentName();
+	this->parentPath = folder.getParentPath();
 }
 
 int Folder::getCode() {
@@ -104,8 +134,33 @@ std::string Folder::toCVS() {
 	std::stringstream ss;
 	ss << code << ";" << order << ";" << getName() << ";" << getSize() << ";" << folderType << ";" 
 			<< getFormatedModified() << ";" << getAttributes() << ";" << parentCodFolder << ";" << getPath(); 
-	return ss.str();		
+	return ss.str();
+}
+
+std::string Folder::toJSON() {
+	std::stringstream ss;
+
+	ss << "{\n  \"name\" : \"" << getName() << "\"," <<
+		  "\n  \"size\" : " << getSize() << "," <<
+		  "\n  \"modified\" : " << getModified() << "," <<
+		  "\n  \"attributes\" : \"" << getAttributes() << "\"," <<
+		  "\n  \"formatedSize\" : \"" << getFormatedSize() << "\"," <<
+		  "\n  \"formatedModified\" : \"" << getFormatedModified() << "\"," <<
+		  "\n  \"code\" : " << code << "," <<
+		  "\n  \"order\" : " << order << "," <<
+		  "\n  \"parentCodFolder\" : " << parentCodFolder << "," <<
+		  "\n  \"folderType\" : \"" << folderType << "\"," <<
+		  "\n  \"path\" : \"" << path << "\"," <<
+		  "\n  \"parentName\" : \"" << parentName << "\"," <<
+		  "\n  \"parentPath\" : \"" << parentPath << "\"," <<
+		  "\n  \"originalPath\" : \"" << getOriginalPath() << "\"\n}";
+
+	return ss.str();
+}
+
+bool Folder::compareTo(Folder &folder1, Folder &folder2)
+{
+	return (folder1.getPath() < folder2.getPath());
 }
 
 }
-

@@ -1,0 +1,1 @@
+./obj/Debug/main.cpp.o ./obj/Debug/Folder.cpp.o ./obj/Debug/StringUtil.cpp.o ./obj/Debug/FolderOrder.cpp.o ./obj/Debug/ProcessFolders.cpp.o ./obj/Debug/PreFile.cpp.o ./obj/Debug/VisitFoldersUtil.cpp.o   

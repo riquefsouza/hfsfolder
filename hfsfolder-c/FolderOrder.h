@@ -1,11 +1,9 @@
 #ifndef FolderOrder_H
 #define FolderOrder_H
 
-/**
- * @author Henrique Figueiredo de Souza
- * @version 1.0
- * @since 2019
- */
+#pragma once
+
+#include "stdafx.h"
 
 struct SFolderOrder {
     int codFolder;

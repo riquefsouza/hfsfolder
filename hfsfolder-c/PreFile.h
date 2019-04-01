@@ -1,26 +1,27 @@
 #ifndef PreFile_H
 #define PreFile_H
 
-/*
- * @author Henrique Figueiredo de Souza
- * @version 1.0
- * @since 2019
- */
+#pragma once
 
+#include "stdafx.h"
 
-
+#include "StringUtil.h"
+#include "DateTime.h"
 
 struct SPrefile {
     String name;
-	long size;
-	time_t modified;
+	unsigned long long size;
+	DateTime modified;
     String attributes;
     String formatedSize;
     String formatedModified;
+	String originalPath;
+	BOOL directory;
+	char separatorChar;
 };
 
-typedef struct SPrefile Prefile;
+typedef struct SPrefile PreFile;
 
-void Prefile_limparDados();
+void PreFile_limparDados(PreFile preFile);
 
 #endif

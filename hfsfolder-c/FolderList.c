@@ -1,15 +1,11 @@
-#include "FolderList.h"
+#include "stdafx.h"
 
-/*
- * @author Henrique Figueiredo de Souza
- * @version 1.0
- * @since 2019
- */
+#include "FolderList.h"
 
 FolderList FolderList_aloca()
 {
 	FolderList ls;
-	ls = (FolderList) GlobalAlloc(GPTR, sizeof(struct nostr));
+	ls = (FolderList) GlobalAlloc(GPTR, sizeof(struct noFolder));
 
 	return(ls);
 }
@@ -24,13 +20,15 @@ VOID FolderList_libera(FolderList ls)
 	GlobalFree(ls);
 }
 
-VOID FolderList_insereFim(FolderList *ls, LPTSTR str)
+VOID FolderList_insereFim(FolderList *ls, Folder folder)
 {
 	FolderList local, temp;
 
 	local = FolderList_aloca();
-  local->ordem = 0;
-	lstrcpy(local->str, str);
+	local->ordem = 0;
+	
+	local->folder = Folder_copy(folder);
+	
 	local->proximo = NULL;
 	if (*ls == NULL)
 		*ls = local;
@@ -43,16 +41,18 @@ VOID FolderList_insereFim(FolderList *ls, LPTSTR str)
 	}
 }
 
-BOOL FolderList_remove(FolderList ls, LPTSTR *str)
+BOOL FolderList_remove(FolderList ls, Folder *folder)
 {
 	FolderList local;
 
 	if ((ls == NULL) || (ls->proximo == NULL)) {
-		// remoção nula
+		// remoÃ§Ã£o nula
 		return FALSE;
 	}
 	local = ls->proximo;
-	*str = local->str;
+	
+	*folder = Folder_copy(local->folder);
+	
 	ls->proximo = local->proximo;
 	FolderList_libera(local);
 	return TRUE;
@@ -65,12 +65,12 @@ UINT nordem;
 
   nordem = 0;
   for (local = ls; local != NULL; local = local->proximo) {
-    local->ordem = nordem;
- 	  nordem++;
+		local->ordem = nordem;
+		nordem++;
   }
 }
 
-VOID FolderList_removeItem(FolderList *ls, LPTSTR str, BOOL bArrumaOrdem)
+VOID FolderList_removeItem(FolderList *ls, Folder folder, BOOL bArrumaOrdem)
 {
 	FolderList local, temp;
 
@@ -78,7 +78,7 @@ VOID FolderList_removeItem(FolderList *ls, LPTSTR str, BOOL bArrumaOrdem)
 	temp = NULL;
 	local = *ls;
 	while (local != NULL) {
-		if (local->str == str){
+		if (Folder_compare(folder, local->folder)) {
 			local = local->proximo;
 			if (temp == NULL){
 				/* remove o primeiro no da lista */
@@ -121,18 +121,19 @@ VOID FolderList_removeItemOrd(FolderList *ls, UINT ordem, BOOL bArrumaOrdem)
 }
 
 VOID FolderList_removeTodos(FolderList ls)
-{ INT ncont, ntotal;
+{ 
+	INT ncont, ntotal;
   ntotal = FolderList_conta(ls);
   for (ncont=0; ncont < ntotal; ncont++)
     FolderList_removeItemOrd(&ls, ncont, FALSE);
 }
 
-BOOL FolderList_pesquisaItem(FolderList ls, LPTSTR str)
+BOOL FolderList_pesquisaItem(FolderList ls, Folder folder)
 {
 	FolderList local;
 
 	for (local = ls; local != NULL; local = local->proximo) {
-		if (lstrcmp(local->str, str)==0)
+		if (Folder_compare(local->folder, folder))
 			return TRUE;
 	}
 	return FALSE;
@@ -141,11 +142,13 @@ BOOL FolderList_pesquisaItem(FolderList ls, LPTSTR str)
 LPTSTR FolderList_pesquisaItemOrd(FolderList ls, UINT ordem)
 {
 	FolderList local;
+	Folder *folder = Folder_new();
+	
 	for (local = ls; local != NULL; local = local->proximo) {
-    if (local->ordem == ordem)
-      return local->str;
+		if (local->ordem == ordem)
+			return local->str;
 	}
-	return "";
+	return folder;
 }
 
 INT FolderList_conta(FolderList ls)

@@ -1,13 +1,12 @@
-#include <ProcessFolders.h>
+#include "stdafx.h"
 
-/*
- * @author Henrique Figueiredo de Souza
- * @version 1.0
- * @since 2019
- */
+#include "FolderList.h"
+#include "ProcessFolders.h"
 
-int ProcessFolders_walk_recur(char *dname, regex_t *reg, int spec, ListPrefile *lpreFile, int *index)
+int ProcessFolders_walk_recur(char *dname, regex_t *reg, int spec, FolderList *lfolder, int *index)
 {
+	Folder obj;
+	
     struct dirent *dent;
     DIR *dir;
     struct stat st;
@@ -54,7 +53,7 @@ int ProcessFolders_walk_recur(char *dname, regex_t *reg, int spec, ListPrefile *
         {
             /* recursively follow dirs */
             if ((spec & WS_RECURSIVE)){
-                ProcessFolders_walk_recur(fn, reg, spec, lpreFile, index);
+                ProcessFolders_walk_recur(fn, reg, spec, lfolder, index);
             }
             if (!(spec & WS_MATCHDIRS))
                 continue;
@@ -63,14 +62,8 @@ int ProcessFolders_walk_recur(char *dname, regex_t *reg, int spec, ListPrefile *
         if (!regexec(reg, fn, 0, 0, 0)) {
             //int fnlen = strlen(fn);
 
-            strcpy(lpreFile[0]->name, fn);
-            //lpreFile[count]->index = count;
-            //lpreFile[count]->count = lpreFile[count]->index + 1;
-            //puts(fn);
-            index = (int)malloc(100);
-            (*index)++;
-            printf("%d\n", *index);
-
+			obj.preFile.setName(String_iniciar2(fn));
+			FolderList_insereFim(lfolder, obj);
         }
     }
     if (dir)
@@ -79,21 +72,22 @@ int ProcessFolders_walk_recur(char *dname, regex_t *reg, int spec, ListPrefile *
 
 }
 
-int ProcessFolders_walk_dir(char *dname, char *pattern, int spec, ListPrefile *lpreFile, int *index)
+int ProcessFolders_walk_dir(char *dname, char *pattern, int spec, FolderList *lfolder, int *index)
 {
     regex_t r;
     int res;
     if (regcomp(&r, pattern, REG_EXTENDED | REG_NOSUB))
         return WALK_BADPATTERN;
-    res = ProcessFolders_walk_recur(dname, &r, spec, lpreFile, index);
+    res = ProcessFolders_walk_recur(dname, &r, spec, lfolder, index);
     regfree(&r);
     return res;
 }
 
-void ProcessFolders_process(char *folder, ListPrefile *lpreFile)
+FolderList ProcessFolders_process(char *folder)
 {
+	FolderList list = FolderList_inicia();
     int index = 0;
-    int r = ProcessFolders_walk_dir(folder, "$", WS_DEFAULT|WS_MATCHDIRS, lpreFile, &index);
+    int r = ProcessFolders_walk_dir(folder, "$", WS_DEFAULT|WS_MATCHDIRS, &list, &index);
     switch(r)
     {
     case WALK_OK:
@@ -107,4 +101,6 @@ void ProcessFolders_process(char *folder, ListPrefile *lpreFile)
     default:
         printf("Unknown error?");
     }
+	
+	return list;
 }

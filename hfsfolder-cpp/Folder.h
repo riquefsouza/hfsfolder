@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <iostream>
 #include "PreFile.h"
 
 using namespace std;
@@ -20,8 +21,10 @@ class Folder : public PreFile
 		
 	public:
 		Folder();
-		Folder(PreFile *preFile);
+		Folder(PreFile preFile);
 		virtual ~Folder();
+
+		void clone(Folder folder);
 
 		int getCode();
 		void setCode(int code);
@@ -41,6 +44,8 @@ class Folder : public PreFile
 		std::string toString();
 		std::string toInsert(int naba);
 		std::string toCVS();
+		std::string toJSON();
+		static bool compareTo(Folder &folder1, Folder &folder2);
 };
 
 }
