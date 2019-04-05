@@ -1,15 +1,15 @@
-#include "stdafx.h"
-
 #include "Folder.h"
+#include "malloc.h"
+#include "StringUtil.h"
 
 Folder* Folder_new() {
 	Folder *folder;
-	folder = (Folder*)GlobalAlloc(GPTR, sizeof(struct SFolder));
+	folder = (Folder*)malloc(sizeof(struct SFolder));
 
 	return(folder);
 }
 
-Folder Folder_copiar(Folder folder) {
+Folder Folder_copy(Folder folder) {
 	Folder lfolder;
 
 	lfolder.preFile.name = String_copiar4(folder.preFile.name);
@@ -31,7 +31,7 @@ Folder Folder_copiar(Folder folder) {
 	return lfolder;
 }
 
-BOOL Folder_comparar(Folder folder1, Folder folder2) {
+bool Folder_compare(Folder folder1, Folder folder2) {
 	return (		
 	String_comparar1(folder1.preFile.name, folder2.preFile.name)
 	&& folder1.preFile.size == folder2.preFile.size

@@ -1,11 +1,12 @@
-#include "stdafx.h"
-
 #include "FolderList.h"
+#include "stdbool.h"
+#include "Folder.h"
+#include "malloc.h"
 
-FolderList FolderList_aloca()
+FolderList FolderList_aloca() 
 {
 	FolderList ls;
-	ls = (FolderList) GlobalAlloc(GPTR, sizeof(struct noFolder));
+	ls = (FolderList)malloc(sizeof(struct noFolder));
 
 	return(ls);
 }
@@ -15,149 +16,181 @@ FolderList FolderList_inicia()
   return NULL;
 }
 
-VOID FolderList_libera(FolderList ls)
+void FolderList_libera(FolderList ls)
 {
-	GlobalFree(ls);
+	free(ls);
 }
 
-VOID FolderList_insereFim(FolderList *ls, Folder folder)
+void FolderList_insereFim(FolderList *ls, Folder folder)
 {
 	FolderList local, temp;
 
 	local = FolderList_aloca();
-	local->ordem = 0;
+	local->order = 0;
 	
 	local->folder = Folder_copy(folder);
 	
-	local->proximo = NULL;
+	local->next = NULL;
 	if (*ls == NULL)
 		*ls = local;
 	else {
 		/* procura o ulitmo no */
-		for (temp = *ls; temp->proximo != NULL; temp = temp->proximo);
-    local->ordem = temp->ordem;
-    local->ordem++;
-		temp->proximo = local;
+		for (temp = *ls; temp->next != NULL; temp = temp->next);
+		local->order = temp->order;
+		local->order++;
+		temp->next = local;
 	}
 }
 
-BOOL FolderList_remove(FolderList ls, Folder *folder)
+bool FolderList_remove(FolderList ls, Folder *folder)
 {
 	FolderList local;
 
-	if ((ls == NULL) || (ls->proximo == NULL)) {
+	if ((ls == NULL) || (ls->next == NULL)) {
 		// remoção nula
-		return FALSE;
+		return false;
 	}
-	local = ls->proximo;
+	local = ls->next;
 	
 	*folder = Folder_copy(local->folder);
 	
-	ls->proximo = local->proximo;
+	ls->next = local->next;
 	FolderList_libera(local);
-	return TRUE;
+	return true;
 }
 
-VOID FolderList_arrumaOrdem(FolderList ls)
+void FolderList_arrumaOrdem(FolderList ls)
 {
 FolderList local;
-UINT nordem;
+unsigned int nordem;
 
   nordem = 0;
-  for (local = ls; local != NULL; local = local->proximo) {
-		local->ordem = nordem;
+  for (local = ls; local != NULL; local = local->next) {
+		local->order = nordem;
 		nordem++;
   }
 }
 
-VOID FolderList_removeItem(FolderList *ls, Folder folder, BOOL bArrumaOrdem)
+void FolderList_removeItem(FolderList *ls, Folder folder, bool bArrumaOrdem)
 {
 	FolderList local, temp;
 
-	LPTSTR localstr;
+	Folder localfolder;
 	temp = NULL;
 	local = *ls;
 	while (local != NULL) {
 		if (Folder_compare(folder, local->folder)) {
-			local = local->proximo;
+			local = local->next;
 			if (temp == NULL){
 				/* remove o primeiro no da lista */
 				FolderList_libera(*ls);
 				*ls = local;
 			} else
-				FolderList_remove(temp, &localstr);
+				FolderList_remove(temp, &localfolder);
 		} else {
 			temp = local;
-			local = local->proximo;
+			local = local->next;
 		}
 	}
 	if (bArrumaOrdem)
   	FolderList_arrumaOrdem(*ls);
 }
 
-VOID FolderList_removeItemOrd(FolderList *ls, UINT ordem, BOOL bArrumaOrdem)
+void FolderList_removeItemOrd(FolderList *ls, unsigned int ordem, bool bArrumaOrdem)
 {
 	FolderList local, temp;
 
-	LPTSTR localstr;
+	Folder localfolder;
 	temp = NULL;
 	local = *ls;
 	while (local != NULL) {
-		if (local->ordem == ordem){
-			local = local->proximo;
+		if (local->order == ordem){
+			local = local->next;
 			if (temp == NULL){
 				/* remove o primeiro no da lista */
 				FolderList_libera(*ls);
 				*ls = local;
 			} else
-				FolderList_remove(temp, &localstr);
+				FolderList_remove(temp, &localfolder);
 		} else {
 			temp = local;
-			local = local->proximo;
+			local = local->next;
 		}
 	}
 	if (bArrumaOrdem)
   	FolderList_arrumaOrdem(*ls);
 }
 
-VOID FolderList_removeTodos(FolderList ls)
+void FolderList_removeTodos(FolderList ls)
 { 
-	INT ncont, ntotal;
-  ntotal = FolderList_conta(ls);
-  for (ncont=0; ncont < ntotal; ncont++)
-    FolderList_removeItemOrd(&ls, ncont, FALSE);
+	int ncont, ntotal;
+	ntotal = FolderList_conta(ls);
+	for (ncont=0; ncont < ntotal; ncont++)
+		FolderList_removeItemOrd(&ls, ncont, false);
 }
 
-BOOL FolderList_pesquisaItem(FolderList ls, Folder folder)
+bool FolderList_pesquisaItem(FolderList ls, Folder folder)
 {
 	FolderList local;
 
-	for (local = ls; local != NULL; local = local->proximo) {
+	for (local = ls; local != NULL; local = local->next) {
 		if (Folder_compare(local->folder, folder))
-			return TRUE;
+			return true;
 	}
-	return FALSE;
+	return false;
 }
 
-LPTSTR FolderList_pesquisaItemOrd(FolderList ls, UINT ordem)
+Folder* FolderList_pesquisaItemOrd(FolderList ls, unsigned int ordem)
 {
 	FolderList local;
 	Folder *folder = Folder_new();
 	
-	for (local = ls; local != NULL; local = local->proximo) {
-		if (local->ordem == ordem)
-			return local->str;
+	for (local = ls; local != NULL; local = local->next) {
+		if (local->order == ordem)
+			return &(local->folder);
 	}
 	return folder;
 }
 
-INT FolderList_conta(FolderList ls)
+int FolderList_conta(FolderList ls)
 {
 	FolderList local;
-	INT ncont;
+	int ncont;
 	ncont = 0;
-	for (local = ls; local != NULL; local = local->proximo)
+	for (local = ls; local != NULL; local = local->next)
 		ncont++;
 
 	return ncont;
+}
+
+void FolderList_sort(FolderList *ls)
+{
+	String path1, path2;
+	FolderList local;
+	Folder folder1, folder2, temp;
+
+	local = *ls;
+	
+	while (local != NULL) {
+		folder1 = local->folder;
+		path1 = folder1.path;
+		
+		if (local->next != NULL){
+			folder2 = local->next->folder;
+			path2 = folder2.path;
+			
+			if (strcmp(path1.str, path2.str) > 0) {
+				temp = Folder_copy(folder1);
+				folder1 = Folder_copy(folder2);
+				folder2 = Folder_copy(temp);
+				
+				local->folder = Folder_copy(folder1);
+				local->next->folder = Folder_copy(folder2);
+				
+				*ls = local;
+			}
+		}
+		
+		local = local->next;
+	}
 }

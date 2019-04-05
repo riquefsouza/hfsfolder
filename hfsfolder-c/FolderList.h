@@ -3,8 +3,7 @@
 
 #pragma once
 
-#include "stdafx.h"
-
+#include "stdbool.h"
 #include "Folder.h"
 
 struct noFolder {
@@ -16,16 +15,17 @@ typedef struct noFolder *FolderList;
 
 FolderList FolderList_aloca();
 FolderList FolderList_inicia();
-VOID FolderList_libera(FolderList ls);
-VOID FolderList_insereFim(FolderList *ls, Folder folder);
-BOOL FolderList_remove(FolderList ls, Folder *folder;
-VOID FolderList_arrumaOrdem(FolderList ls);
-VOID FolderList_removeItem(FolderList *ls, Folder folder, BOOL bArrumaOrdem);
-VOID FolderList_removeItemOrd(FolderList *ls, UINT ordem, BOOL bArrumaOrdem);
-VOID FolderList_removeTodos(FolderList ls);
-BOOL FolderList_pesquisaItem(FolderList ls, Folder folder);
-LPTSTR FolderList_pesquisaItemOrd(FolderList ls, UINT ordem);
-INT FolderList_conta(FolderList ls);
+void FolderList_libera(FolderList ls);
+void FolderList_insereFim(FolderList *ls, Folder folder);
+bool FolderList_remove(FolderList ls, Folder *folder);
+void FolderList_arrumaOrdem(FolderList ls);
+void FolderList_removeItem(FolderList *ls, Folder folder, bool bArrumaOrdem);
+void FolderList_removeItemOrd(FolderList *ls, unsigned int ordem, bool bArrumaOrdem);
+void FolderList_removeTodos(FolderList ls);
+bool FolderList_pesquisaItem(FolderList ls, Folder folder);
+Folder* FolderList_pesquisaItemOrd(FolderList ls, unsigned int ordem);
+int FolderList_conta(FolderList ls);
+void FolderList_sort(FolderList *ls);
 
 #endif
 

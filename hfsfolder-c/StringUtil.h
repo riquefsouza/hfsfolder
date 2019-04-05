@@ -3,13 +3,14 @@
 
 #pragma once
 
-#include "stdafx.h"
+#include "wchar.h"
+#include "stdbool.h"
 
 #define TAM_MAX_STR 512
 
 struct SString {
-	CHAR str[TAM_MAX_STR];
-	WCHAR wstr[TAM_MAX_STR];
+	char str[TAM_MAX_STR];
+	wchar_t wstr[TAM_MAX_STR];
 	unsigned int length;
 };
 typedef struct SString String;
@@ -23,20 +24,20 @@ String String_concatenar6(const char* string1, String lstring);
 String String_concatenar7(String string1, unsigned int qtd, ...);
 
 String String_copiar1(const char* string1);
-String String_copiar2(LPCWSTR string1);
+String String_copiar2(const wchar_t* string1);
 String String_copiar3(const char caracter);
 String String_copiar4(String string1);
 
-BOOL String_comparar1(String string1, String string2);
-BOOL String_comparar2(String string1, const char* string2);
-BOOL String_comparar3(String string1, LPCWSTR string2);
+bool String_comparar1(String string1, String string2);
+bool String_comparar2(String string1, const char* string2);
+bool String_comparar3(String string1, const wchar_t* string2);
 
 String String_limpar();
 
 String String_iniciar1(const char caracter);
 String String_iniciar2(const char* string1);
 String String_iniciar3(String string1);
-String String_iniciar4(LPCWSTR string1);
+String String_iniciar4(const wchar_t* string1);
 
 void String_finalizar(String *lstring);
 
@@ -69,9 +70,9 @@ char* String_cLowerCase(const char* texto);
 char* String_cUpperCase(const char* texto);
 int String_cPos(const char* subtexto, const char* texto);
 int String_cFind(const char* subtexto, const char* texto, int posInicial);
-BOOL String_cStartsStr(const char* sub, const char* texto);
-BOOL String_cContainsStr(const char* texto, const char* subtexto);
-BOOL String_cEndsStr(const char* texto, const char* subtexto);
+bool String_cStartsStr(const char* sub, const char* texto);
+bool String_cContainsStr(const char* texto, const char* subtexto);
+bool String_cEndsStr(const char* texto, const char* subtexto);
 int String_cLastDelimiter(const char* sub, const char* texto);
 char* String_cStrndup(const char* texto, size_t tamanho);
 char* String_cSubString(const char* texto, int inicio, int tamanho);
@@ -88,7 +89,7 @@ long String_cToLong(const char* texto);
 long long String_cToLongLong(const char* texto);
 double String_cToDouble(const char* texto);
 long double String_cToLongDouble(const char* texto);
-BOOL String_cSomenteNumero(const char* texto);
+bool String_cSomenteNumero(const char* texto);
 // ---------------------------------------------------------------------------
 void String_testar();
 

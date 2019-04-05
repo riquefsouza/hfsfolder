@@ -1,13 +1,19 @@
-#include "stdafx.h"
-
 #include "StringUtil.h"
+#include "stdarg.h"
+#include "malloc.h"
+#include "stdio.h"
+#include "string.h"
+#include "wchar.h"
+#include "stdlib.h"
+#include "ctype.h"
 
 String String_concatenar1(String lstring, String string1) {
 
 	//strcat_s(lstring.str, TAM_MAX_STR, string1.str);
 	strcat(lstring.str, string1.str);
 	lstring.length = strlen(lstring.str);
-	lstrcat((LPSTR)lstring.wstr, (LPCSTR)string1.wstr);
+	//lstrcat(lstring.wstr, string1.wstr);
+	wcscat(lstring.wstr, string1.wstr);
 	return lstring;
 }
 
@@ -22,13 +28,14 @@ String String_concatenar3(String lstring, const char caracter) {
 	return lstring;
 }
 
-String String_copiar(String string1) {
+String String_copiar4(String string1) {
 	String lstring = String_limpar();
 
 	//strcpy_s(lstring.str, TAM_MAX_STR, string1.str);
 	strcpy(lstring.str, string1.str);
 	lstring.length = string1.length;
-	lstrcpy((LPSTR)lstring.wstr, (LPCSTR)string1.wstr);
+	//lstrcpy(lstring.wstr, string1.wstr);
+	wcscpy(lstring.wstr, string1.wstr);
 	return lstring;
 }
 
@@ -37,7 +44,7 @@ String String_copiar1(const char* string1) {
 	return rstring;
 }
 
-String String_copiar2(LPCWSTR string1) {
+String String_copiar2(const wchar_t* string1) {
 	String rstring = String_iniciar4(string1);
 	return rstring;
 }
@@ -47,19 +54,21 @@ String String_copiar3(const char caracter) {
 	return rstring;
 }
 
-BOOL String_comparar1(String string1, String string2) {
+bool String_comparar1(String string1, String string2) {
 	return (string1.length == string2.length &&
 			strcmp(string1.str, string2.str) == 0);
 }
 
-BOOL String_comparar2(String string1, const char* string2) {
+bool String_comparar2(String string1, const char* string2) {
 	return (string1.length == strlen(string2) &&
 		strcmp(string1.str, string2) == 0);
 }
 
-BOOL String_comparar3(String string1, LPCWSTR string2) {
-	return (string1.length == lstrlen((LPCSTR)string2) &&
-		lstrcmp((LPCSTR)string1.wstr, (LPCSTR)string2) == 0);
+bool String_comparar3(String string1, const wchar_t* string2) {
+	return (string1.length == wcslen(string2) &&	
+		wcscmp(string1.wstr, string2) == 0);
+	//string1.length == lstrlen(string2) &&	
+	//lstrcmp(string1.wstr, string2) == 0);
 }
 
 String String_limpar() {
@@ -74,7 +83,9 @@ String String_limpar() {
 String String_iniciarRestante(String lstring) {
 	lstring.length = strlen(lstring.str);
 
-	if (MultiByteToWideChar(0, 0, lstring.str, TAM_MAX_STR, lstring.wstr, TAM_MAX_STR) <= 0) {
+
+	//if (MultiByteToWideChar(0, 0, lstring.str, TAM_MAX_STR, lstring.wstr, TAM_MAX_STR) <= 0) {
+	if (mbstowcs(lstring.wstr, lstring.str, TAM_MAX_STR) <=0){	
 		lstring.wstr[0] = '\0';
 	}
 
@@ -82,7 +93,7 @@ String String_iniciarRestante(String lstring) {
 }
 
 String String_iniciar1(const char caracter) {
-	CHAR str[TAM_MAX_STR];
+	char str[TAM_MAX_STR];
 
 	str[0] = caracter;
 	str[1] = '\0';
@@ -109,7 +120,7 @@ String String_iniciar3(String string1) {
 	String lstring = String_limpar();
 
 	if (string1.length > 0) {
-		lstring = String_copiar(string1);
+		lstring = String_copiar4(string1);
 
 		return lstring;
 	}
@@ -118,7 +129,7 @@ String String_iniciar3(String string1) {
 	}
 }
 
-String String_iniciar4(LPCWSTR string1) {
+String String_iniciar4(const wchar_t* string1) {
 	String lstring = String_limpar();
 
 	//if (WideCharToMultiByte(0, 0, string, TAM_MAX_STR, lstring.str, TAM_MAX_STR, NULL, NULL) <= 0) {
@@ -188,7 +199,8 @@ String String_Trim(String lstring) {
 	strcpy(rstring.str, String_cTrim(lstring.str));
 	rstring.length = strlen(rstring.str);
 
-	if (MultiByteToWideChar(0, 0, rstring.str, TAM_MAX_STR, rstring.wstr, TAM_MAX_STR) <= 0) {
+	//if (MultiByteToWideChar(0, 0, rstring.str, TAM_MAX_STR, rstring.wstr, TAM_MAX_STR) <= 0) {
+	if (mbstowcs(rstring.wstr, rstring.str, TAM_MAX_STR) <=0){ 	
 		rstring.wstr[0] = '\0';
 	}
 
@@ -202,7 +214,8 @@ String String_LowerCase(String lstring) {
 	strcpy(rstring.str, String_cLowerCase(lstring.str));
 	rstring.length = strlen(rstring.str);
 
-	if (MultiByteToWideChar(0, 0, rstring.str, TAM_MAX_STR, rstring.wstr, TAM_MAX_STR) <= 0) {
+	//if (MultiByteToWideChar(0, 0, rstring.str, TAM_MAX_STR, rstring.wstr, TAM_MAX_STR) <= 0) {
+	if (mbstowcs(rstring.wstr, rstring.str, TAM_MAX_STR) <=0){ 	
 		rstring.wstr[0] = '\0';
 	}
 
@@ -216,21 +229,23 @@ String String_UpperCase(String lstring) {
 	strcpy(rstring.str, String_cUpperCase(lstring.str));
 	rstring.length = strlen(rstring.str);
 
-	if (MultiByteToWideChar(0, 0, rstring.str, TAM_MAX_STR, rstring.wstr, TAM_MAX_STR) <= 0) {
+	//if (MultiByteToWideChar(0, 0, rstring.str, TAM_MAX_STR, rstring.wstr, TAM_MAX_STR) <= 0) {
+	if (mbstowcs(rstring.wstr, rstring.str, TAM_MAX_STR) <=0){ 	
 		rstring.wstr[0] = '\0';
 	}
 
 	return rstring;
 }
 
-String String_QuotedStr(String lstring) {
+String String_QuotedStr1(String lstring) {
 	String rstring = String_limpar();
 
 	//strcpy_s(rstring.str, TAM_MAX_STR, String_cQuotedStr(lstring.str));
 	strcpy(rstring.str, String_cQuotedStr(lstring.str));
 	rstring.length = strlen(rstring.str);
 
-	if (MultiByteToWideChar(0, 0, rstring.str, TAM_MAX_STR, rstring.wstr, TAM_MAX_STR) <= 0) {
+	//if (MultiByteToWideChar(0, 0, rstring.str, TAM_MAX_STR, rstring.wstr, TAM_MAX_STR) <= 0) {
+	if (mbstowcs(rstring.wstr, rstring.str, TAM_MAX_STR) <=0){ 	
 		rstring.wstr[0] = '\0';
 	}
 
@@ -239,7 +254,7 @@ String String_QuotedStr(String lstring) {
 
 String String_QuotedStr2(const char caracter) {
 	String rstring = String_iniciar1(caracter);
-	return String_QuotedStr(rstring);
+	return String_QuotedStr1(rstring);
 }
 
 String String_SubString(String lstring, int inicio, int tamanho) {
@@ -487,20 +502,20 @@ int String_cFind(const char* subtexto, const char* texto, int posInicial)
 		return (retorno - stexto + posInicial);
 }
 
-BOOL String_cStartsStr(const char* sub, const char* texto)
+bool String_cStartsStr(const char* sub, const char* texto)
 {
 	if (strncmp(texto, sub, strlen(sub)) == 0)
-		return TRUE;
+		return true;
 	else
-		return FALSE;
+		return false;
 }
 
-BOOL String_cContainsStr(const char* texto, const char* subtexto)
+bool String_cContainsStr(const char* texto, const char* subtexto)
 {
 	return (String_cPos(subtexto, texto) > 0);
 }
 
-BOOL String_cEndsStr(const char* texto, const char* subtexto)
+bool String_cEndsStr(const char* texto, const char* subtexto)
 {
 	return (String_cLastDelimiter(subtexto, texto) > 0);
 }
@@ -668,7 +683,8 @@ char* String_cFromLongLong(const long long valor)
 
 	retorno = String_cNewStr(tamanho);
 	//sprintf_s(retorno, tamanho, "%lld", valor);
-	sprintf(retorno, "%lld", valor);
+	//sprintf(retorno, "%lld", valor);
+	sprintf(retorno, "%I64d", valor);
 
 	return retorno;
 }
@@ -680,7 +696,7 @@ char* String_cFromLongDouble(const long double valor)
 
 	retorno = String_cNewStr(tamanho);
 	//sprintf_s(retorno, tamanho, "%4.2Lf", valor);
-	sprintf(retorno, "%4.2Lf", valor);
+	//sprintf(retorno, "%4.2Lf", valor);
 
 	return retorno;
 }
@@ -721,9 +737,9 @@ long double String_cToLongDouble(const char* texto)
 	return strtold(texto, &pEnd);
 }
 
-BOOL String_cSomenteNumero(const char* texto)
+bool String_cSomenteNumero(const char* texto)
 {
-	BOOL retorno = TRUE;
+	bool retorno = true;
 	unsigned int i = 0;
 	//unsigned int j = 0;
 	int tamanho = strlen(texto);
@@ -734,12 +750,12 @@ BOOL String_cSomenteNumero(const char* texto)
 		{
 			if (isascii(texto[i])) {
 				if (!isdigit(texto[i]) && texto[i] != '.') {
-					retorno = FALSE;
+					retorno = false;
 					break;
 				}
 			}
 			else {
-				retorno = FALSE;
+				retorno = false;
 				break;
 			}
 		}

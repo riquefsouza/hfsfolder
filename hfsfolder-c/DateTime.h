@@ -3,8 +3,8 @@
 
 #pragma once
 
-#include "stdafx.h"
-
+#include "stdbool.h"
+#include "time.h"
 #include "StringUtil.h"
 
 #define DateTime_FORMATO_DATA "dd/MM/yyyy"
@@ -28,7 +28,7 @@ typedef struct SDateTime DateTime;
 
 //---------------------------------------------------------------------------
 DateTime DateTime_copiar(DateTime dateTime);
-BOOL DateTime_comparar(DateTime dateTime1, DateTime dateTime2);
+bool DateTime_comparar(DateTime dateTime1, DateTime dateTime2);
 
 DateTime* DateTime_aloca();
 DateTime DateTime_raw(const time_t rawTempo);

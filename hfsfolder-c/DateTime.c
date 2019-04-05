@@ -1,6 +1,7 @@
-#include "stdafx.h"
-
 #include "DateTime.h"
+#include "malloc.h"
+#include "string.h"
+#include "wchar.h"
 
 DateTime DateTime_copiar(DateTime datetime) {
 	DateTime ldatetime;
@@ -17,7 +18,7 @@ DateTime DateTime_copiar(DateTime datetime) {
 	return ldatetime;
 }
 
-BOOL DateTime_comparar(DateTime datetime1, DateTime datetime2) {
+bool DateTime_comparar(DateTime datetime1, DateTime datetime2) {
 	return
 		(datetime1.dia == datetime2.dia
 			&& datetime1.mes == datetime2.mes
@@ -132,19 +133,19 @@ void DateTime_FormatDateTime(const DateTime dateTime, const char* formato, Strin
 	String tempo = String_iniciar2("");
 
     if (strcmp(formato, DateTime_FORMATO_DATAHORA) == 0){
-		wcsftime(tempo.wstr, 20, (LPWSTR)_T("%d/%m/%Y %H:%M:%S"), dateTime.InfoTempo);
+		wcsftime(tempo.wstr, 20, L"%d/%m/%Y %H:%M:%S", dateTime.InfoTempo);
 		retorno = String_iniciar4(tempo.wstr);
     }
 	if (strcmp(formato, DateTime_FORMATO_DHARQUIVO) == 0) {
-		wcsftime(tempo.wstr, 20, (LPWSTR)_T("%Y-%m-%d_%H_%M_%S"), dateTime.InfoTempo);
+		wcsftime(tempo.wstr, 20, L"%Y-%m-%d_%H_%M_%S", dateTime.InfoTempo);
 		retorno = String_iniciar4(tempo.wstr);
 	}
 	if (strcmp(formato, DateTime_FORMATO_DATA) == 0){
-		wcsftime(tempo.wstr, 11, (LPWSTR)_T("%d/%m/%Y"), dateTime.InfoTempo);
+		wcsftime(tempo.wstr, 11, L"%d/%m/%Y", dateTime.InfoTempo);
 		retorno = String_iniciar4(tempo.wstr);
 	}
     if (strcmp(formato, DateTime_FORMATO_HORA) == 0){
-		wcsftime(tempo.wstr, 11, (LPWSTR)_T("%H:%M:%S"), dateTime.InfoTempo);
+		wcsftime(tempo.wstr, 11, L"%H:%M:%S", dateTime.InfoTempo);
 		retorno = String_iniciar4(tempo.wstr);
 	}
     //return retorno;

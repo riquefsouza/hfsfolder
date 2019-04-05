@@ -3,13 +3,14 @@
 
 #pragma once
 
-#include "stdafx.h"
-
 struct SFolderOrder {
     int codFolder;
     int order;
 };
 
 typedef struct SFolderOrder FolderOrder;
+
+FolderOrder* FolderOrder_new();
+FolderOrder* FolderOrder_new2(int codFolder, int order);
 
 #endif

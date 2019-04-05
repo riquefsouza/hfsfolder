@@ -3,12 +3,10 @@
 
 #pragma once
 
-#include "stdafx.h"
-
 #include "StringUtil.h"
 #include "DateTime.h"
 
-struct SPrefile {
+struct SPreFile {
     String name;
 	unsigned long long size;
 	DateTime modified;
@@ -16,11 +14,15 @@ struct SPrefile {
     String formatedSize;
     String formatedModified;
 	String originalPath;
-	BOOL directory;
+	bool directory;
 	char separatorChar;
 };
 
-typedef struct SPrefile PreFile;
+typedef struct SPreFile PreFile;
+
+PreFile* PreFile_new();
+PreFile PreFile_copy(PreFile preFile);
+bool PreFile_compare(PreFile preFile1, PreFile preFile2);
 
 void PreFile_limparDados(PreFile preFile);
 

@@ -3,9 +3,8 @@
 
 #pragma once
 
-#include "stdafx.h"
-
 #include "PreFile.h"
+#include "StringUtil.h"
 
 struct SFolder {
     PreFile preFile;
@@ -22,8 +21,8 @@ struct SFolder {
 typedef struct SFolder Folder;
 
 Folder* Folder_new();
-Folder Folder_copiar(Folder folder);
-BOOL Folder_comparar(Folder folder1, Folder folder2);
+Folder Folder_copy(Folder folder);
+bool Folder_compare(Folder folder1, Folder folder2);
 
 void Folder_limparDados(Folder folder);
 String Folder_toString(Folder folder);

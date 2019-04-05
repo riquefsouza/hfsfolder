@@ -1,1 +1,1 @@
-./Debug/ProcessFolders.c.o ./Debug/main.c.o   
+./obj/Debug/main.c.o ./obj/Debug/StringUtil.c.o ./obj/Debug/VisitFoldersUtil.c.o ./obj/Debug/Folder.c.o ./obj/Debug/FolderOrder.c.o ./obj/Debug/DateTime.c.o ./obj/Debug/ProcessFolders.c.o ./obj/Debug/PreFile.c.o ./obj/Debug/FolderList.c.o   
