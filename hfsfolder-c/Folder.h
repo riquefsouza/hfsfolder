@@ -15,7 +15,6 @@ struct SFolder {
 	String path;
 	String parentName;
 	String parentPath;
-	String originalPath;
 };
 
 typedef struct SFolder Folder;

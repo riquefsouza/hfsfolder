@@ -20,6 +20,7 @@ Folder Folder_copy(Folder folder) {
 	lfolder.preFile.formatedModified = String_copiar4(folder.preFile.formatedModified);
 	lfolder.preFile.originalPath = String_copiar4(folder.preFile.originalPath);
 	lfolder.preFile.directory = folder.preFile.directory;
+	lfolder.preFile.separatorChar = folder.preFile.separatorChar;
 	lfolder.code = folder.code;
 	lfolder.order = folder.order;
 	lfolder.parentCodFolder = folder.parentCodFolder;
@@ -60,7 +61,6 @@ void Folder_limparDados(Folder folder) {
     folder.path = String_limpar();
     folder.parentName = String_limpar();
     folder.parentPath = String_limpar();
-    folder.originalPath = String_limpar();
 }
 
 String Folder_toString(Folder folder) {
@@ -92,35 +92,37 @@ String Folder_toInsert(Folder folder, int naba) {
 
 String Folder_toCVS(Folder folder) {
 	String str = String_iniciar2("");
+	String folderType = String_iniciar1(folder.folderType);
 	str = String_concatenar5(str, String_FromInt(folder.code), ";");
 	str = String_concatenar5(str, String_FromInt(folder.order), ";");
-	str = String_concatenar5(str, String_QuotedStr1(folder.preFile.name), ";");
+	str = String_concatenar5(str, folder.preFile.name, ";");
 	str = String_concatenar5(str, String_FromLongLong(folder.preFile.size), ";");
-	str = String_concatenar5(str, String_QuotedStr2(folder.folderType), ";");
-	str = String_concatenar5(str, String_QuotedStr1(folder.preFile.formatedModified), ";");
-	str = String_concatenar5(str, String_QuotedStr1(folder.preFile.attributes), ";");	
+	str = String_concatenar5(str, folderType, ";");
+	str = String_concatenar5(str, folder.preFile.formatedModified, ";");
+	str = String_concatenar5(str, folder.preFile.attributes, ";");	
 	str = String_concatenar5(str, String_FromInt(folder.parentCodFolder), ";");
-	str = String_concatenar5(str, String_QuotedStr1(folder.path), "");
+	str = String_concatenar5(str, folder.path, "");
 	return str;
 }
 
 String Folder_toJSON(Folder folder) {
-	String sdatetime;
+	String sdatetime = String_limpar();
+	String folderType = String_iniciar1(folder.folderType);
 	String str = String_iniciar2("{\n  \"name\" : \"");
-	str = String_concatenar5(str, String_QuotedStr1(folder.preFile.name), "\",\n  \"size\" : ");
+	str = String_concatenar5(str, folder.preFile.name, "\",\n  \"size\" : ");
 	str = String_concatenar5(str, String_FromLongLong(folder.preFile.size), ",\n  \"modified\" : ");	
 	DateTime_FormatDateTime(folder.preFile.modified, DateTime_FORMATO_DATAHORA, sdatetime);
-	str = String_concatenar5(str, String_QuotedStr1(sdatetime), ",\n  \"attributes\" : \"");
-	str = String_concatenar5(str, String_QuotedStr1(folder.preFile.attributes), "\",\n  \"formatedSize\" : \"");
-	str = String_concatenar5(str, String_QuotedStr1(folder.preFile.formatedSize), "\",\n  \"formatedModified\" : \"");
-	str = String_concatenar5(str, String_QuotedStr1(folder.preFile.formatedModified), "\",\n  \"code\" : ");
+	str = String_concatenar5(str, sdatetime, ",\n  \"attributes\" : \"");
+	str = String_concatenar5(str, folder.preFile.attributes, "\",\n  \"formatedSize\" : \"");
+	str = String_concatenar5(str, folder.preFile.formatedSize, "\",\n  \"formatedModified\" : \"");
+	str = String_concatenar5(str, folder.preFile.formatedModified, "\",\n  \"code\" : ");
 	str = String_concatenar5(str, String_FromInt(folder.code), ",\n  \"order\" : ");
 	str = String_concatenar5(str, String_FromInt(folder.order), ",\n  \"parentCodFolder\" : ");
 	str = String_concatenar5(str, String_FromInt(folder.parentCodFolder), ",\n  \"folderType\" : \"");
-	str = String_concatenar5(str, String_QuotedStr2(folder.folderType), "\",\n  \"path\" : \"");
-	str = String_concatenar5(str, String_QuotedStr1(folder.path), "\",\n  \"parentName\" : \"");
-	str = String_concatenar5(str, String_QuotedStr1(folder.parentName), "\",\n  \"parentPath\" : \"");
-	str = String_concatenar5(str, String_QuotedStr1(folder.parentPath), "\",\n  \"originalPath\" : \"");	
-	str = String_concatenar5(str, String_QuotedStr1(folder.preFile.originalPath), "\"\n}");		
+	str = String_concatenar5(str, folderType, "\",\n  \"path\" : \"");
+	str = String_concatenar5(str, folder.path, "\",\n  \"parentName\" : \"");
+	str = String_concatenar5(str, folder.parentName, "\",\n  \"parentPath\" : \"");
+	str = String_concatenar5(str, folder.parentPath, "\",\n  \"originalPath\" : \"");	
+	str = String_concatenar5(str, folder.preFile.originalPath, "\"\n}");		
 	return str;
 }

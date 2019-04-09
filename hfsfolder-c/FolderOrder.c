@@ -1,4 +1,5 @@
 #include "FolderOrder.h"
+#include "malloc.h"
 
 FolderOrder* FolderOrder_new(){
 	FolderOrder *folderOrder;

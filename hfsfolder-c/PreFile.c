@@ -1,4 +1,5 @@
 #include "PreFile.h"
+#include "malloc.h"
 
 PreFile* PreFile_new() {
 	PreFile *preFile;

@@ -74,60 +74,22 @@ String ProcessFolders_MountSize(long long nTam) {
 	}
 }
 
-PreFile ProcessFolders_attributesToPreFile(Folder sfile){
-	struct stat fileInfo;
-	DateTime datahora;
-	String sdatetime;
-	String sAtributos = String_limpar();
-	PreFile preFile;
+PreFile ProcessFolders_attributesToPreFile(Folder folder){
+	String sdatetime = String_limpar();
 
-	String sName = String_copiar4(sfile.preFile.name);
-	sName = String_ReplaceAll(sName, "'", "''");
-	preFile.name = String_copiar4(sName);
-	preFile.originalPath = String_copiar4(sfile.originalPath);
+	folder.preFile.formatedSize = ProcessFolders_MountSize(folder.preFile.size);
+	DateTime_FormatDateTime(folder.preFile.modified, DateTime_FORMATO_DATAHORA, sdatetime);
+	folder.preFile.formatedModified = String_copiar4(sdatetime);
 
-	if (_access(preFile.originalPath.str, 0) == 0) {
-		stat(preFile.originalPath.str, &fileInfo);
-
-		datahora = DateTime_raw(fileInfo.st_mtime);
-
-		if ((fileInfo.st_mode & S_IFMT) == S_IFDIR) {
-			sAtributos = String_concatenar4(sAtributos, "[DIR]");
-			preFile.directory = true;
-		}
-		else {
-			sAtributos = String_concatenar4(sAtributos, "[ARQ]");
-			preFile.directory = false;
-		}
-
-		//S_IREAD S_IWRITE
-		/*
-		if ((fileInfo.st_mode & S_IFMT) != S_IWUSR) {
-			sAtributos = String_concatenar4(sAtributos, "[ROL]");
-		}
-		 */
-
-		preFile.size = fileInfo.st_size;
-		preFile.modified = datahora;
-		preFile.attributes = String_copiar4(sAtributos);
-	}
-	else {
-		preFile.size = 0;
-		preFile.modified = DateTime_Now();
-		preFile.attributes = String_limpar();
-	}
-
-	preFile.formatedSize = ProcessFolders_MountSize(preFile.size);
-	DateTime_FormatDateTime(preFile.modified, DateTime_FORMATO_DATAHORA, sdatetime);
-	preFile.formatedModified = String_copiar4(sdatetime);
-
-	return preFile;
+	return folder.preFile;
 }
 
 Folder ProcessFolders_createFolder(Folder sfile, FolderOrder *folderOrder){
 	regex_t reg, reg2;
 	PreFile preFile = ProcessFolders_attributesToPreFile(sfile);
 	Folder dir;
+	
+	Folder_limparDados(dir);
 	dir.preFile = PreFile_copy(preFile);
 	
 	if (preFile.directory) {
@@ -164,7 +126,7 @@ Folder ProcessFolders_createFolder(Folder sfile, FolderOrder *folderOrder){
 	sPath = String_ReplaceAll(sPath, "\\", "/");
 
 	dir.path = String_copiar4(sPath);
-	dir.originalPath = String_copiar4(preFile.originalPath);
+	dir.preFile.originalPath = String_copiar4(preFile.originalPath);
 
 	if (!String_cContainsStr(dir.path.str, "/")) {
 		folderOrder->codFolder++;
@@ -184,10 +146,12 @@ bool ProcessFolders_filterFindFirst(FolderList listFolders, String sfolder, Fold
 	FolderList local;
 	Folder folder;
 	
+	Folder_limparDados(folder);
+	
     for (local = listFolders; local != NULL; local = local->next) {
         folder = local->folder;
 		
-		if (String_comparar1(sfolder, folder.originalPath)) {
+		if (String_comparar1(sfolder, folder.preFile.originalPath)) {
 			*rfolder = Folder_copy(folder);
 			return true;
 		}
@@ -203,7 +167,10 @@ FolderList ProcessFolders_process(String folder){
 	FolderOrder* folderOrder = FolderOrder_new(-1, 0);
 	String pathChild;
 	Folder* pathFather;
-	String sep = String_iniciar1(item.preFile.separatorChar);
+	String sep;
+
+	Folder_limparDados(dir);
+	Folder_limparDados(item);
 
 	puts("Processing folders!\n");
 
@@ -219,8 +186,9 @@ FolderList ProcessFolders_process(String folder){
     for (local = listFolders; local != NULL; local = local->next) {
         item = local->folder;
 
-		int nlast = String_cLastDelimiter(sep.str, item.originalPath.str);
-		pathChild = String_SubString(item.originalPath, 1, nlast);
+		sep = String_iniciar1(item.preFile.separatorChar);
+		int nlast = String_cLastDelimiter(sep.str, item.preFile.originalPath.str);
+		pathChild = String_SubString(item.preFile.originalPath, 1, nlast);
 
 		pathFather = Folder_new();
 
@@ -233,69 +201,93 @@ FolderList ProcessFolders_process(String folder){
 		}
 	}
 
-	FolderList_sort(&local);
+	//FolderList_sort(&listFolders);
 
-	return local;
+	return listFolders;
 }
 
-String ProcessFolders_processFoldersToJson(String folder){
+StringList ProcessFolders_processFoldersToJson(String folder){
 	FolderList lista = ProcessFolders_process(folder);
 	String result = String_iniciar2("[ ");
 	FolderList local;
 	Folder item;
+	StringList strList;
 	unsigned int i = 0;
+	
+	Folder_limparDados(item);
 
+	StringList_insereFim(&strList, result);
+	
     for (local = lista; local != NULL; local = local->next) {
         item = local->folder;
 
 		if (i == 0)			
-			result = String_concatenar1(result, Folder_toJSON(item));
+			result = Folder_toJSON(item);
 		else
-			result = String_concatenar7(result, 2, ", ", Folder_toJSON(item));
+			result = String_concatenar6(", ", Folder_toJSON(item));
 			
-		i++;	
+		i++;
+			
+		StringList_insereFim(&strList, result);
 	}
 
-	result = String_concatenar4(result, " ]");
+	result = String_copiar1(" ]");
+	
+	StringList_insereFim(&strList, result);
 
-	return result;
+	return strList;
 }
 
-void ProcessFolders_processFoldersToFile(String data, const String sfile){
+void ProcessFolders_processFoldersToFile(StringList data, const String sfile){	
+	StringList local;
 	FILE *pfile = fopen(sfile.str, "w");
 
 	if(pfile == NULL) {
 		printf("Error opening %s for writing.", sfile.str);
 	} else {
-		fputs(data.str, pfile);
+		for (local = data; local != NULL; local = local->next) {
+			fputs(local->str.str, pfile);
+		}
 		fclose(pfile);
 	}
 }
 
-String ProcessFolders_processFoldersToInsert(String folder, int naba){
+StringList ProcessFolders_processFoldersToInsert(String folder, int naba){
 	FolderList lista = ProcessFolders_process(folder);
 	String result = String_limpar();
 	FolderList local;
 	Folder item;
+	StringList strList;
+	
+	Folder_limparDados(item);
 
     for (local = lista; local != NULL; local = local->next) {
         item = local->folder;
-		result = String_concatenar5(result, Folder_toInsert(item, naba), "\n");
+		result = String_concatenar4(Folder_toInsert(item, naba), "\n");
+		
+		StringList_insereFim(&strList, result);
 	}
 
-	return result;
+	return strList;
 }
 
-String ProcessFolders_processFoldersToCSV(String folder){
+StringList ProcessFolders_processFoldersToCSV(String folder){
 	FolderList lista = ProcessFolders_process(folder);
 	String result = String_iniciar2("Code;Order;Name;Size;\"Folder Type\";\"Formated Modified\";Attributes;\"Parent Code Folder\";Path\n");
 	FolderList local;
 	Folder item;
+	StringList strList;
+	
+	Folder_limparDados(item);
+
+	StringList_insereFim(&strList, result);
 
     for (local = lista; local != NULL; local = local->next) {
         item = local->folder;
-		result = String_concatenar5(result, Folder_toCVS(item), "\n");
+		result = String_concatenar4(Folder_toCVS(item), "\n");
+		
+		StringList_insereFim(&strList, result);
 	}
 
-	return result;
+	return strList;
 }

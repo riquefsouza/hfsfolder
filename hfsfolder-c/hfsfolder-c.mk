@@ -12,8 +12,8 @@ OutDir                 := $(IntermediateDirectory)
 CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
-User                   :=henrique.souza
-Date                   :=05/04/2019
+User                   :=Administrador
+Date                   :=08/04/2019
 CodeLitePath           :="C:/Program Files/CodeLite"
 LinkerName             :=C:/msys64/mingw64/bin/g++.exe
 SharedObjectLinkerName :=C:/msys64/mingw64/bin/g++.exe -shared -fPIC
@@ -38,12 +38,12 @@ MakeDirCommand         :=makedir
 RcCmpOptions           := 
 RcCompilerName         :=C:/msys64/mingw64/bin/windres.exe
 LinkOptions            :=  
-IncludePath            :=  $(IncludeSwitch). $(IncludeSwitch). $(IncludeSwitch)C:/msys64/mingw64/include 
+IncludePath            := $(IncludeSwitch)C:/msys64/mingw64/include  $(IncludeSwitch). $(IncludeSwitch). $(IncludeSwitch)C:/msys64/mingw64/include 
 IncludePCH             := 
 RcIncludePath          := 
 Libs                   := $(LibrarySwitch)gnurx $(LibrarySwitch)regex 
 ArLibs                 :=  "gnurx" "regex" 
-LibPath                := $(LibraryPathSwitch). $(LibraryPathSwitch)C:/msys64/mingw64/lib 
+LibPath                :=$(LibraryPathSwitch)C:/msys64/mingw64/lib  $(LibraryPathSwitch). $(LibraryPathSwitch)C:/msys64/mingw64/lib 
 
 ##
 ## Common variables
@@ -62,7 +62,8 @@ AS       := C:/msys64/mingw64/bin/as.exe
 ## User defined environment variables
 ##
 CodeLiteDir:=C:\Program Files\CodeLite
-Objects0=$(IntermediateDirectory)/main.c$(ObjectSuffix) $(IntermediateDirectory)/StringUtil.c$(ObjectSuffix) $(IntermediateDirectory)/VisitFoldersUtil.c$(ObjectSuffix) $(IntermediateDirectory)/Folder.c$(ObjectSuffix) $(IntermediateDirectory)/FolderOrder.c$(ObjectSuffix) $(IntermediateDirectory)/DateTime.c$(ObjectSuffix) $(IntermediateDirectory)/ProcessFolders.c$(ObjectSuffix) $(IntermediateDirectory)/PreFile.c$(ObjectSuffix) $(IntermediateDirectory)/FolderList.c$(ObjectSuffix) 
+Objects0=$(IntermediateDirectory)/StringList.c$(ObjectSuffix) $(IntermediateDirectory)/main.c$(ObjectSuffix) $(IntermediateDirectory)/StringUtil.c$(ObjectSuffix) $(IntermediateDirectory)/VisitFoldersUtil.c$(ObjectSuffix) $(IntermediateDirectory)/Folder.c$(ObjectSuffix) $(IntermediateDirectory)/FolderOrder.c$(ObjectSuffix) $(IntermediateDirectory)/DateTime.c$(ObjectSuffix) $(IntermediateDirectory)/ProcessFolders.c$(ObjectSuffix) $(IntermediateDirectory)/PreFile.c$(ObjectSuffix) $(IntermediateDirectory)/FolderList.c$(ObjectSuffix) \
+	
 
 
 
@@ -93,6 +94,14 @@ PreBuild:
 ##
 ## Objects
 ##
+$(IntermediateDirectory)/StringList.c$(ObjectSuffix): StringList.c $(IntermediateDirectory)/StringList.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "C:/ambiente/workspace-codelite/hfsfolder-c/StringList.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/StringList.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/StringList.c$(DependSuffix): StringList.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/StringList.c$(ObjectSuffix) -MF$(IntermediateDirectory)/StringList.c$(DependSuffix) -MM StringList.c
+
+$(IntermediateDirectory)/StringList.c$(PreprocessSuffix): StringList.c
+	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/StringList.c$(PreprocessSuffix) StringList.c
+
 $(IntermediateDirectory)/main.c$(ObjectSuffix): main.c $(IntermediateDirectory)/main.c$(DependSuffix)
 	$(CC) $(SourceSwitch) "C:/ambiente/workspace-codelite/hfsfolder-c/main.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/main.c$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/main.c$(DependSuffix): main.c

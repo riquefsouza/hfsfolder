@@ -36,7 +36,8 @@ int main(int argc, char *argv[])
 		}
 
 		if (folder.length > 0) {
-			String data = String_limpar();
+			StringList data;
+			StringList local;
 			String outFile = String_iniciar2("hfsfolder");
 			if (tojson) {
 				outFile = String_concatenar4(outFile, ".json");
@@ -54,12 +55,14 @@ int main(int argc, char *argv[])
 				data = ProcessFolders_processFoldersToCSV(folder);
 			}
 
-			if (tofile && data.length > 0) {
+			if (tofile && StringList_conta(data) > 0) {
 				ProcessFolders_processFoldersToFile(data, outFile);
 				printf("Finish process folders!\n");
 			}
-			else if (data.length > 0) {
-				printf(data.str);
+			else if (StringList_conta(data) > 0) {
+				for (local = data; local != NULL; local = local->next) {
+					printf(local->str.str);
+				}
 			}
 
 			if (!tojson && !toinsert && !tocvs && !tofile) {

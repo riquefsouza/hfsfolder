@@ -8,6 +8,8 @@
   <Description/>
   <Dependencies/>
   <VirtualDirectory Name="src">
+    <File Name="StringList.c"/>
+    <File Name="StringList.h"/>
     <File Name="FolderOrder.c"/>
     <File Name="VisitFoldersUtil.h"/>
     <File Name="VisitFoldersUtil.c"/>
@@ -49,7 +51,7 @@
         <Library Value="regex"/>
       </Linker>
       <ResourceCompiler Options="" Required="no"/>
-      <General OutputFile="./bin/Debug/$(ProjectName)" IntermediateDirectory="./obj/Debug" Command="./$(ProjectName)" CommandArguments="c:\temp --tojson --tofile" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="./bin/Debug" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <General OutputFile="./bin/Debug/$(ProjectName)" IntermediateDirectory="./obj/Debug" Command="./$(ProjectName)" CommandArguments="c:/temp --tojson" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="./bin/Debug" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
       <BuildSystem Name="Default"/>
       <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
         <![CDATA[]]>

@@ -23,6 +23,7 @@ enum
 #define WS_DOTFILES (1 << 2) /* per unix convention, .file is hidden */
 #define WS_MATCHDIRS (1 << 3) /* if pattern is used on dir names too */
 
+Folder VisitFoldersUtil_attributesToPreFile(char *dname, char *fn, struct stat st);
 int VisitFoldersUtil_walk_recur(char *dname, regex_t *reg, int spec, FolderList *lfolder, int *index);
 int VisitFoldersUtil_walk_dir(char *dname, char *pattern, int spec, FolderList *lfolder, int *index);
 FolderList VisitFoldersUtil_process(char *folder);

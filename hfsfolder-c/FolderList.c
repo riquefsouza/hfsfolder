@@ -2,6 +2,7 @@
 #include "stdbool.h"
 #include "Folder.h"
 #include "malloc.h"
+#include "string.h"
 
 FolderList FolderList_aloca() 
 {
@@ -168,6 +169,12 @@ void FolderList_sort(FolderList *ls)
 	String path1, path2;
 	FolderList local;
 	Folder folder1, folder2, temp;
+
+	path1 = String_limpar();
+	path2 = String_limpar();
+	Folder_limparDados(folder1);
+	Folder_limparDados(folder2);
+	Folder_limparDados(temp);
 
 	local = *ls;
 	

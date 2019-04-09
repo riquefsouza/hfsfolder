@@ -9,9 +9,46 @@
 #include "PreFile.h"
 #include "Folder.h"
 
+Folder VisitFoldersUtil_attributesToPreFile(char *dname, char *fn, struct stat st)
+{
+	Folder folder;
+	String sAtributos = String_limpar();
+	String sName = String_limpar();
+	
+	Folder_limparDados(folder);
+	
+	sName = String_copiar1(dname);
+	sName = String_ReplaceAll(sName, "'", "''");
+	folder.preFile.name = String_copiar4(sName);
+	folder.preFile.size = st.st_size;
+	
+	folder.preFile.originalPath = String_iniciar2(fn);
+
+	if ((st.st_mode & S_IFMT) == S_IFDIR) {
+		sAtributos = String_concatenar4(sAtributos, "[DIR]");
+		folder.preFile.modified = DateTime_raw(st.st_ctime);
+		folder.preFile.directory = true;
+	}
+	else {
+		sAtributos = String_concatenar4(sAtributos, "[ARQ]");
+		folder.preFile.modified = DateTime_raw(st.st_mtime);
+		folder.preFile.directory = false;
+	}
+
+	//S_IREAD S_IWRITE
+	/*
+	if ((st.st_mode & S_IFMT) != S_IWUSR) {
+		sAtributos = String_concatenar4(sAtributos, "[ROL]");
+	}
+	 */
+	folder.preFile.attributes = String_copiar4(sAtributos);
+	
+	return folder;
+}
+
 int VisitFoldersUtil_walk_recur(char *dname, regex_t *reg, int spec, FolderList *lfolder, int *index)
 {
-	Folder obj;
+	
 	
     struct dirent *dent;
     DIR *dir;
@@ -66,10 +103,8 @@ int VisitFoldersUtil_walk_recur(char *dname, regex_t *reg, int spec, FolderList 
         }
 
         if (!regexec(reg, fn, 0, 0, 0)) {
-            //int fnlen = strlen(fn);
-
-			obj.preFile.name = String_iniciar2(fn);
-			FolderList_insereFim(lfolder, obj);
+			Folder folder = VisitFoldersUtil_attributesToPreFile(dent->d_name, fn, st);
+			FolderList_insereFim(lfolder, folder);
         }
     }
     if (dir)
@@ -92,6 +127,9 @@ int VisitFoldersUtil_walk_dir(char *dname, char *pattern, int spec, FolderList *
 FolderList VisitFoldersUtil_process(char *folder)
 {
 	FolderList lfolder = FolderList_inicia();
+
+	//Folder folder = VisitFoldersUtil_attributesToPreFile(folder, fn);
+	//FolderList_insereFim(lfolder, folder);	
 	
     int index = 0;
     int r = VisitFoldersUtil_walk_dir(folder, "$", WS_DEFAULT|WS_MATCHDIRS, &lfolder, &index);
