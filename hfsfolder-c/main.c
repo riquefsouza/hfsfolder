@@ -78,7 +78,7 @@ int main(int argc, char *argv[])
 	else {
 		printf("HFSFolder\n" \
 			"Usage:\n" \
-			"    java -jar hfsfolder-java.jar /folder\n\n" \
+			"    hfsfolder-c /folder\n\n" \
 			"Options:\n" \
 			"    --version\n" \
 			"    --tojson\n" \
@@ -86,7 +86,7 @@ int main(int argc, char *argv[])
 			"    --tocvs\n" \
 			"    --tofile\n\n" \
 			"Example:\n" \
-			"    java -jar hfsfolder-java.jar /folder --tojson --tofile --version\n\n");
+			"    hfsfolder-c /folder --tojson --tofile --version\n\n");
 	}
 
     return 0;

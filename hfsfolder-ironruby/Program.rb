@@ -73,7 +73,10 @@ module hfsfolder
 					end
 				end
 			else
-				Console.WriteLine("HFSFolder \n" + "Usage:\n" + "    dotnet run /folder\n\n" + "Options:\n" + "    --version\n" + "    --tojson\n" + "    --toinsert\n" + "    --tocvs\n" + "    --tofile\n\n" + "Example:\n" + "    dotnet run /folder --tojson --tofile --version\n")
+				Console.WriteLine("HFSFolder \n" + "Usage:\n" + "    hfsfolder-ironruby /folder\n\n" + 
+				"Options:\n" + "    --version\n" + "    --tojson\n" + "    --toinsert\n" + 
+				"    --tocvs\n" + "    --tofile\n\n" + "Example:\n" + 
+				"    hfsfolder-ironruby /folder --tojson --tofile --version\n")
 			end
 		end
 	end

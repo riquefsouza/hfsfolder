@@ -57,7 +57,10 @@ class Program(object):
 				if tojson or toinsert or tocvs or tofile:
 					Console.WriteLine("Inform folder!")
 		else:
-			Console.WriteLine("HFSFolder \n" + "Usage:\n" + "    dotnet run /folder\n\n" + "Options:\n" + "    --version\n" + "    --tojson\n" + "    --toinsert\n" + "    --tocvs\n" + "    --tofile\n\n" + "Example:\n" + "    dotnet run /folder --tojson --tofile --version\n")
+			Console.WriteLine("HFSFolder \n" + "Usage:\n" + "    hfsfolder-ironpython /folder\n\n" + 
+			"Options:\n" + "    --version\n" + "    --tojson\n" + "    --toinsert\n" + 
+			"    --tocvs\n" + "    --tofile\n\n" + "Example:\n" + 
+			"    hfsfolder-ironpython /folder --tojson --tofile --version\n")
 
 	Main = staticmethod(Main)
 

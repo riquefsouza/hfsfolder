@@ -80,7 +80,7 @@ int main(int argc, char *argv[])
 	else {
 		std::cout << "HFSFolder\n" \
 			"Usage:\n" \
-			"    java -jar hfsfolder-java.jar /folder\n\n" \
+			"    hfsfolder-cpp /folder\n\n" \
 			"Options:\n" \
 			"    --version\n" \
 			"    --tojson\n" \
@@ -88,7 +88,7 @@ int main(int argc, char *argv[])
 			"    --tocvs\n" \
 			"    --tofile\n\n" \
 			"Example:\n" \
-			"    java -jar hfsfolder-java.jar /folder --tojson --tofile --version\n" << std::endl;
+			"    hfsfolder-cpp /folder --tojson --tofile --version\n" << std::endl;
 	}
 
 	return 0;
