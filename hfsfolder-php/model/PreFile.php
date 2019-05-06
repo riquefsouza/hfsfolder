@@ -12,14 +12,11 @@ class PreFile
     private $attributes = "";
     private $formatedSize = "";
     private $formatedModified = "";
+    private $originalPath = "";
+    private $directory = false;
 
-    public function __construct($name, $size, $modified, $attributes, $formatSize, $formatModified) {
-        $this->name = $name;
-        $this->size = $size;
-        $this->modified = $modified;
-        $this->attributes = $attributes;
-        $this->formatedSize = $formatSize;
-        $this->formatedModified = $formatModified;
+    public function __construct() {
+        $this->limparDados();
     }
 
     /**
@@ -118,25 +115,54 @@ class PreFile
         $this->formatedModified = $formatedModified;
     }
 
+    /**
+     * @return string
+     */
+    public function getOriginalPath()
+    {
+        return $this->originalPath;
+    }
+
+    /**
+     * @param string $originalPath
+     */
+    public function setOriginalPath($originalPath)
+    {
+        $this->originalPath = $originalPath;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDirectory()
+    {
+        return $this->directory;
+    }
+
+    /**
+     * @param bool $directory
+     */
+    public function setDirectory($directory)
+    {
+        $this->directory = $directory;
+    }
+
     public function limparDados() {
         $this->name = "";
         $this->size = 0;
-        $this->modified = new DateTime();
+        $this->modified = date("d/m/Y H:i:s");
         $this->attributes = "";
         $this->formatedSize = "";
         $this->formatedModified = "";
+        $this->originalPath = "";
+        $this->directory = false;
     }
 
-    public function toString() {
+    public function __toString() {
         return "PreFile [name=" . $this->name . ", size=" . $this->size
             . ", modified=" . $this->modified . ", attributes=" . $this->attributes
             . ", formatSize=" . $this->formatedSize
             . ", formatModified=" . $this->formatedModified . "]";
-    }
-
-    public function toInsert() {
-        return "'" . $this->getName() . "'," . $this->size
-            . ",'" . $this->formatedModified . "','" . $this->attributes . "'";
     }
 
     public function toCVS() {

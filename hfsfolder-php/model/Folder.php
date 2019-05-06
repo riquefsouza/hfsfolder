@@ -3,6 +3,9 @@
 
 namespace model;
 
+require_once(__ROOT__.'/model/PreFile.php');
+
+use model\PreFile as PreFile;
 
 class Folder extends PreFile
 {
@@ -13,7 +16,8 @@ class Folder extends PreFile
     private $path = "";
     private $parentName = "";
     private $parentPath = "";
-    private $originalPath = "";
+
+    public $separatorChar = '/';
 
     public function __construct($preFile) {
         $this->setName($preFile->getName());
@@ -22,6 +26,7 @@ class Folder extends PreFile
         $this->setAttributes($preFile->getAttributes());
         $this->setFormatedSize($preFile->getFormatedSize());
         $this->setFormatedModified($preFile->getFormatedModified());
+        $this->setOriginalPath($preFile->getOriginalPath());
     }
 
     /**
@@ -136,21 +141,6 @@ class Folder extends PreFile
         $this->parentPath = $parentPath;
     }
 
-    /**
-     * @return string
-     */
-    public function getOriginalPath()
-    {
-        return $this->originalPath;
-    }
-
-    /**
-     * @param string $originalPath
-     */
-    public function setOriginalPath($originalPath)
-    {
-        $this->originalPath = $originalPath;
-    }
 
     public function limparDados() {
         parent::limparDados();
@@ -161,7 +151,6 @@ class Folder extends PreFile
         $this->path = "";
         $this->parentName = "";
         $this->parentPath = "";
-        $this->originalPath = "";
     }
 
     public function __toString() {
@@ -184,6 +173,23 @@ class Folder extends PreFile
             . ";" . $this->getSize() . ";" . $this->folderType . ";"
             . $this->getFormatedModified() . ";" . $this->getAttributes() . ";"
             . $this->parentCodFolder . ";" . $this->getPath();
+    }
+
+    public function toJSON(){
+        return "{\n  \"name\" : \"" . $this->getName() . "\"," .
+            "\n  \"size\" : " . $this->getSize() . "," .
+            "\n  \"modified\" : " . $this->getModified() . "," .
+            "\n  \"attributes\" : \"" . $this->getAttributes() . "\"," .
+            "\n  \"formatedSize\" : \"" . $this->getFormatedSize() . "\"," .
+            "\n  \"formatedModified\" : \"" . $this->getFormatedModified() . "\"," .
+            "\n  \"code\" : " . $this->code . "," .
+            "\n  \"order\" : " . $this->order . "," .
+            "\n  \"parentCodFolder\" : " . $this->parentCodFolder . "," .
+            "\n  \"folderType\" : \"" . $this->folderType . "\"," .
+            "\n  \"path\" : \"" . $this->path . "\"," .
+            "\n  \"parentName\" : \"" . $this->parentName . "\"," .
+            "\n  \"parentPath\" : \"" . $this->parentPath . "\"," .
+            "\n  \"originalPath\" : \"" . $this->getOriginalPath() . "\"\n}";
     }
 
 }

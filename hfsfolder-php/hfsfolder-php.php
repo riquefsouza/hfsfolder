@@ -1,57 +1,94 @@
 #!/usr/bin/php
 <?php
 define('__ROOT__', dirname(__FILE__));
-require_once(__ROOT__.'/model/FolderOrder.php');
-require_once(__ROOT__.'/util/VisitFoldersUtil.php');
-require_once(__ROOT__.'/util/FolderList.php');
+require_once(__ROOT__.'/ProcessFolders.php');
 
-use util\FolderList as FolderList;
-use model\FolderOrder as FolderOrder;
-
-/*
-$c = new FolderList();
-
-$c->add(new FolderOrder(1, 4), 0);
-$c->add(new FolderOrder(2, 5), 1);
-$c->add(new FolderOrder(3, 6), 2);
-
-//foreach ($c->items as $item) {
-for ($x = 0; $x < $c->size(); $x++) {
-    echo $c->get($x)->getOrder() . "\n";
+function input($text){
+    print($text);
+    $handle = fopen ("php://stdin","r");
+    $line = fgets($handle);
+    if(strlen(trim($line))> 0){
+        return intval($line);
+    }
+    return 0;
 }
 
-$c->delete(1);
+function main($argv) {
+    $processFolders = new ProcessFolders();
+    $folder = "";
+    $tojson = false;
+    $tofile = false;
+    $toinsert = false;
+    $tocvs = false;
+    if (count($argv) > 1) {
+        for ($i = 1; $i < count($argv); $i++) {
+            $opt = $argv[$i];
 
-try {
-    echo $c->get(1);
+            if (strlen(strstr($opt,"--")) == 0) {
+                $folder = $opt;
+            }
+            if ($opt === "--version") {
+                print("hfsfolder 1.0\n");
+            }
+            if ($opt === "--tojson") {
+                $tojson = true;
+            }
+            if ($opt === "--tofile") {
+                $tofile = true;
+            }
+            if ($opt === "--toinsert") {
+                $toinsert = true;
+            }
+            if ($opt === "--tocvs") {
+                $tocvs = true;
+            }
+        }
+
+        if (strlen($folder) > 0) {
+            $data = "";
+            $outFile = "hfsfolder";
+            if ($tojson) {
+                $outFile .= ".json";
+                $data = $processFolders->processFoldersToJson($folder);
+            }
+            if ($toinsert) {
+                $naba = input("Inform tab number: ");
+                $outFile .= "-insert.sql";
+                $data = $processFolders->processFoldersToInsert($folder, $naba);
+            }
+            if ($tocvs) {
+                $outFile .= ".csv";
+                $data = $processFolders->processFoldersToCSV($folder);
+			}
+            if ($tofile and strlen($data) > 0) {
+                $processFolders->processFoldersToFile($data, $outFile);
+                print("Finish process folders!\n");
+            } elseif (strlen($data) > 0) {
+                print($data . "\n");
+            }
+            if (!$tojson and !$toinsert and !$tocvs and !$tofile) {
+                print("Inform option!\n");
+            }
+        } else {
+            if ($tojson or $toinsert or $tocvs or $tofile) {
+                print("Inform folder!\n");
+            }
+        }
+
+    } else {
+        print("HFSFolder \n"
+        . "Usage:\n"
+        . "    php hfsfolder-php.php /folder\n\n"
+        . "Options:\n"
+        . "    --version\n"
+        . "    --tojson\n"
+        . "    --toinsert\n"
+        . "    --tocvs\n"
+        . "    --tofile\n\n"
+        . "Example:\n"
+        . "    php hfsfolder-php.php /folder --tojson --tofile --version\n");
+    }
 }
-catch (exception $e) {
-    print "The collection doesn't contain Steve.";
-}
 
-*/
-use util\VisitFoldersUtil as VisitFoldersUtil;
+main($argv);
 
-$visitFoldersUtil = new VisitFoldersUtil();
-$folders = $visitFoldersUtil->getFoldersFromFiles("c:/Fabricante");
-
-for ($x = 0; $x < count($folders); $x++) {
-    echo "outro: " . $folders[$x] . "\n";
-}
-
-
-/*
-foreach($argv as $value)
-{
-    echo "$value\n";
-}
-
-
-//$d=strtotime("now");
-//echo date("d/m/Y H:i:s");
-//print_r(getdate());
-date_default_timezone_set("America/Recife");
-echo date(DATE_W3C);
-printf("\n");
-echo date("d/m/Y H:i:s");
-*/
